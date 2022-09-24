@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Taiwuhentai", "taiwumod\Taiwuhentai.csproj", "{C130EDED-6175-4D8F-815D-117A1C200C94}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaiwuhentaiFront", "TaiwuhentaiFront\TaiwuhentaiFront.csproj", "{205F77B7-A648-4BED-9C92-42B0B708E883}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C130EDED-6175-4D8F-815D-117A1C200C94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C130EDED-6175-4D8F-815D-117A1C200C94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C130EDED-6175-4D8F-815D-117A1C200C94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C130EDED-6175-4D8F-815D-117A1C200C94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{205F77B7-A648-4BED-9C92-42B0B708E883}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{205F77B7-A648-4BED-9C92-42B0B708E883}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{205F77B7-A648-4BED-9C92-42B0B708E883}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{205F77B7-A648-4BED-9C92-42B0B708E883}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {778956E9-C782-4562-95C9-BC37382C760E}
+	EndGlobalSection
+EndGlobal
