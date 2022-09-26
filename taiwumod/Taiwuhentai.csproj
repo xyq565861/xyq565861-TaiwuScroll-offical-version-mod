@@ -61,6 +61,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Relation_Patch.cs" />
     <Compile Include="Debuglogger.cs" />
     <Compile Include="ModDomain_Patch.cs" />
     <Compile Include="RelationType_Patch.cs" />

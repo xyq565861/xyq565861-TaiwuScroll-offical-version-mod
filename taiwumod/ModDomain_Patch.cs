@@ -20,8 +20,8 @@ namespace Taiwuhentai
             Debuglogger.Log("star injecting event package dll");
             harmony.PatchAll(typeof(TaiwuEvent_bad63f08115a45aa970cfa203dd85e2b_expresslove__Patch));
             harmony.PatchAll(typeof(TaiwuEvent_bad63f08115a45aa970cfa203dd85e2b_proposal__Patch));
-            harmony.PatchAll(typeof(RelationType_Patch));
-            harmony.PatchAll(typeof(test));
+            //harmony.PatchAll(typeof(RelationType_Patch));
+            //harmony.PatchAll(typeof(Test));
             Debuglogger.Log("injected event package dll");
         }
     }
