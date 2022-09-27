@@ -9,7 +9,7 @@ using TaiwuModdingLib.Core.Plugin;
 
 namespace Taiwuhentai
 {
-	[PluginConfig("Taiwuhentai_Backend", "FD.FLY", "0.0.2")]
+	[PluginConfig("Taiwuhentai_Backend", "FD.FLY", "0.0.3")]
 	public class Taiwuhentai : TaiwuRemakeHarmonyPlugin
 	{
 		public override void Initialize()
@@ -19,7 +19,8 @@ namespace Taiwuhentai
 			this.HarmonyInstance.PatchAll(typeof(ModDomain_Patch));
 			this.HarmonyInstance.PatchAll(typeof(RelationType_Patch));
 			this.HarmonyInstance.PatchAll(typeof(Relation_Patch));
-			this.HarmonyInstance.PatchAll(typeof(CharacterDomain_Patch));
+			this.HarmonyInstance.PatchAll(typeof(CharacterDomain_Newbron_Patch));
+			this.HarmonyInstance.PatchAll(typeof(CharacterDomain_Marry_Patch));
 
 			Debuglogger.Log("injected back plugin dll");
 
@@ -36,25 +37,28 @@ namespace Taiwuhentai
 			DomainManager.Mod.GetSetting(base.ModIdStr, "unrestrainedSpouse", ref Taiwuhentai.unrestrainedSpouseNum);
 			DomainManager.Mod.GetSetting(base.ModIdStr, "unrestrainedSpouseFactions", ref Taiwuhentai.unrestrainedSpouseFactions);
 			DomainManager.Mod.GetSetting(base.ModIdStr, "spouseAge", ref Taiwuhentai.spouseAge);
+			DomainManager.Mod.GetSetting(base.ModIdStr, "responsibleParent", ref Taiwuhentai.responsibleParent);
 			DomainManager.Mod.GetSetting(base.ModIdStr, "bloodTies", ref Taiwuhentai.bloodTies);
 			DomainManager.Mod.GetSetting(base.ModIdStr, "childGender", ref Taiwuhentai.childGender);
 			DomainManager.Mod.GetSetting(base.ModIdStr, "rateOfConfession", ref Taiwuhentai.rateOfConfession);
 			DomainManager.Mod.GetSetting(base.ModIdStr, "debugMode", ref Taiwuhentai.debugMode);
-			Debuglogger.Log(string.Format("back plugin setting complete:\n unrestrainedSpouse:{0}\n unrestrainedSpouseFactions:{1}\n spouseAge:{2}\n bloodTies:{3}\n childGender:{4}\n rateOfConfession:{5}\n debugMode:{6}", new object[]
+			Debuglogger.Log(string.Format("back plugin setting complete:\n unrestrainedSpouse:{0}\n unrestrainedSpouseFactions:{1}\n spouseAge:{2}\n bloodTies:{3}\n childGender:{4}\n rateOfConfession:{5}\n rateOfConfession:{6}\n debugMode:{7}", new object[]
 			{
 				Taiwuhentai.unrestrainedSpouseNum,
-				Taiwuhentai.unrestrainedSpouseFactions,
+				Taiwuhentai.unrestrainedSpouseFactions,				
 				Taiwuhentai.spouseAge,
 				Taiwuhentai.bloodTies,
 				Taiwuhentai.childGender,
-				rateOfConfession,
+				Taiwuhentai.rateOfConfession,
+				Taiwuhentai.responsibleParent,
 				Taiwuhentai.debugMode
 			}));
 		}
 		public static bool unrestrainedSpouseNum;
 		public static bool unrestrainedSpouseFactions;
-		public static int spouseAge;
+		public static bool responsibleParent;
 		public static bool bloodTies;
+		public static int spouseAge;
 		public static int rateOfConfession;
 
 		public static int childGender;

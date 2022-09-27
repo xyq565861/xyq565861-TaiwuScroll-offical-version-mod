@@ -30,6 +30,7 @@ namespace Taiwuhentai
 			if (flag)
 			{
 				__result = false;
+				return;
 			}
 			else
 			{
@@ -43,6 +44,7 @@ namespace Taiwuhentai
 				if (flag3)
 				{
 					__result = false;
+					return;
 				}
 				else
 				{
@@ -50,6 +52,7 @@ namespace Taiwuhentai
 					if (flag4)
 					{
 						__result = true;
+						return;
 					}
 					else
 					{
@@ -58,6 +61,7 @@ namespace Taiwuhentai
 						if (flag5)
 						{
 							__result = true;
+							return;
 						}
 						else
 						{
@@ -65,11 +69,13 @@ namespace Taiwuhentai
 							if (flag6)
 							{
 								__result = false;
+								return;
 							}
 							else
 							{
 								bool flag7 = (RelationType.ContainBloodExclusionRelations(relationTypes) && !Taiwuhentai.bloodTies);
 								__result = !flag7;
+								return;
 							}
 						}
 					}
