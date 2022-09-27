@@ -110,137 +110,139 @@ namespace Taiwuhentai
         [HarmonyPatch("ParallelCreateIntelligentCharacter")]
         static bool Prefix(ref CreateIntelligentCharacterModification __result, DataContext context, ref IntelligentCharacterCreationInfo info, bool recordModification = true)
         {
-            Debuglogger.Log(" ParallelCreateIntelligentCharacter event"+" FatherCharId: "+ info.FatherCharId+
-                    " MotherCharId:" + info.MotherCharId);
-            if (info.FatherCharId == DomainManager.Taiwu.GetTaiwuCharId() || info.MotherCharId == DomainManager.Taiwu.GetTaiwuCharId())
+          if(info.PregnantState != null)
             {
-                CreateIntelligentCharacterModification createIntelligentCharacterModification = new CreateIntelligentCharacterModification();
-                createIntelligentCharacterModification.FatherCharId = info.FatherCharId;
-                createIntelligentCharacterModification.MotherCharId = info.MotherCharId;
-                PregnantState pregnantState = info.PregnantState;
-                bool flag1 = false;
-                bool flag2 = false;
-                if (!pregnantState.CreateFatherRelation)
+                if (info.FatherCharId == DomainManager.Taiwu.GetTaiwuCharId() || info.MotherCharId == DomainManager.Taiwu.GetTaiwuCharId())
                 {
-                    if (Taiwuhentai.unrestrainedSpouseNum)
+                    CreateIntelligentCharacterModification createIntelligentCharacterModification = new CreateIntelligentCharacterModification();
+                    createIntelligentCharacterModification.FatherCharId = info.FatherCharId;
+                    createIntelligentCharacterModification.MotherCharId = info.MotherCharId;
+                    PregnantState pregnantState = info.PregnantState;
+                    bool flag1 = false;
+                    bool flag2 = false;
+                    if (!pregnantState.CreateFatherRelation)
                     {
-                        HashSet<int> fatherSpouses = HentaiUtility.GetAllAliveSpouse(info.FatherCharId);
-                        foreach (var item in fatherSpouses)
+                        if (Taiwuhentai.unrestrainedSpouseNum)
                         {
-                            Debuglogger.Log("fatherSpouses" + item);
-                            if (item.Equals(info.MotherCharId))
+                            HashSet<int> fatherSpouses = HentaiUtility.GetAllAliveSpouse(info.FatherCharId);
+                            foreach (var item in fatherSpouses)
                             {
-                                Debuglogger.Log("Hit fatherSpouses" + item);
-                                flag1 = true;
-                                break;
+                                Debuglogger.Log("fatherSpouses" + item);
+                                if (item.Equals(info.MotherCharId))
+                                {
+                                    Debuglogger.Log("Hit fatherSpouses" + item);
+                                    flag1 = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (Taiwuhentai.responsibleParent && !flag1)
+                        {
+                            HashSet<int> fatherSpouses = HentaiUtility.GetAllAliveAdored(info.FatherCharId);
+                            foreach (var item in fatherSpouses)
+                            {
+                                if (item.Equals(info.MotherCharId))
+                                {
+                                    flag1 = true;
+                                    break;
+                                }
+                            }
+                        }
+
+                    }
+                    if (!pregnantState.CreateMotherRelation)
+                    {
+                        if (Taiwuhentai.unrestrainedSpouseNum)
+                        {
+                            HashSet<int> motherSpouses = HentaiUtility.GetAllAliveSpouse(info.MotherCharId);
+                            foreach (var item in motherSpouses)
+                            {
+                                if (item.Equals(info.FatherCharId))
+                                {
+                                    flag2 = true;
+                                    break;
+                                }
+                            }
+                        }
+                        if (Taiwuhentai.responsibleParent && !flag2)
+                        {
+                            HashSet<int> motherSpouses = HentaiUtility.GetAllAliveAdored(info.MotherCharId);
+                            foreach (var item in motherSpouses)
+                            {
+                                if (item.Equals(info.FatherCharId))
+                                {
+                                    flag2 = true;
+                                    break;
+                                }
                             }
                         }
                     }
-                    if (Taiwuhentai.responsibleParent && !flag1)
+
+
+
+                    createIntelligentCharacterModification.CreateFatherRelation = (info.PregnantState != null && (flag1 || info.PregnantState.CreateFatherRelation || info.FatherCharId != info.PregnantState.FatherId));
+                    createIntelligentCharacterModification.CreateMotherRelation = (pregnantState != null && (flag2 || pregnantState.CreateMotherRelation));
+                    createIntelligentCharacterModification.ReincarnationCharId = info.ReincarnationCharId;
+                    CreateIntelligentCharacterModification mod = createIntelligentCharacterModification;
+                    Character character = new Character(info.CharTemplateId);
+                    mod.Self = character;
+                    character.OfflineCreateIntelligentCharacter(context, mod, ref info);
+                    if (recordModification)
                     {
-                        HashSet<int> fatherSpouses = HentaiUtility.GetAllAliveAdored(info.FatherCharId);
-                        foreach (var item in fatherSpouses)
-                        {
-                            if (item.Equals(info.MotherCharId))
-                            {
-                                flag1 = true;
-                                break;
-                            }
-                        }
+                        ParallelModificationsRecorder recorder = context.ParallelModificationsRecorder;
+                        recorder.RecordType(ParallelModificationType.CreateIntelligentCharacter);
+                        recorder.RecordParameterClass<CreateIntelligentCharacterModification>(mod);
+                        recorder.RecordParameterUnmanaged<bool>(true);
                     }
+
+                    Debuglogger.Log(
+                        " Is Taiwu event" +
+                        " FatherCharId:" + createIntelligentCharacterModification.FatherCharId +
+                        " MotherCharId:" + createIntelligentCharacterModification.MotherCharId +
+                        " CreateFatherRelation:" + createIntelligentCharacterModification.CreateFatherRelation +
+                        " InfoPregnantStateCreateFatherRelation:" + pregnantState.CreateFatherRelation +
+                        " InfoPregnantStateFatherCharId:" + pregnantState.FatherId +
+                        " CreateMotherRelation:" + createIntelligentCharacterModification.CreateMotherRelation +
+                        " ReincarnationCharId:" + createIntelligentCharacterModification.ReincarnationCharId +
+                        " recordModification:" + recordModification
+                        );
+                    //PropertyInfo[] propertyInfos = DomainManager.Character.GetType().GetProperties();
+                    //foreach (var item in propertyInfos)
+                    //{
+                    //    Debuglogger.Log(" propertyInfos:" + item.Name + " PropertyType.Name:" + item.PropertyType.Name + " Attributes:" + item.Attributes.ToString());
+
+
+                    // }
+                    //FieldInfo[] fieldAttributes = DomainManager.Character.GetType().GetFields();
+                    //foreach (var item in fieldAttributes)
+                    //{
+                    //    Debuglogger.Log(" fieldAttributes:" + item.Name + " FieldInfo.Name:" + item.FieldType.Name + " Attributes:" + item.Attributes.ToString());
+
+
+                    //}
+                    //IEnumerable<FieldInfo> runTimeFieldAttributes = DomainManager.Character.GetType().GetRuntimeFields();
+                    //Dictionary<int, RelatedCharacters> _relatedCharIds=new Dictionary<int, RelatedCharacters>();
+                    //foreach (var item in runTimeFieldAttributes)
+                    //{
+                    //    Debuglogger.Log(" runTimeFieldAttributes:" + item.Name + " FieldInfo.Name:" + item.FieldType.Name + " Attributes:" + item.Attributes.ToString());
+                    //    if (item.Name.Equals("_relatedCharIds"))
+                    //    {
+                    //        _relatedCharIds = (Dictionary<int, RelatedCharacters>)item.GetValue(DomainManager.Character);
+                    //        Debuglogger.Log("Hit _relatedCharIds");
+                    //    }
+                    //}
+                    //if (_relatedCharIds != null)
+                    //{
+
+                    //    Debuglogger.Log("_relatedCharIds.size:"+ _relatedCharIds.Count);
+
+                    //}
+                    __result = mod;
+                    return false;
 
                 }
-                if (!pregnantState.CreateMotherRelation)
-                {
-                    if (Taiwuhentai.unrestrainedSpouseNum)
-                    {
-                        HashSet<int> motherSpouses = HentaiUtility.GetAllAliveSpouse(info.MotherCharId);
-                        foreach (var item in motherSpouses)
-                        {
-                            if (item.Equals(info.FatherCharId))
-                            {
-                                flag2 = true;
-                                break;
-                            }
-                        }
-                    }
-                    if (Taiwuhentai.responsibleParent&& !flag2)
-                    {
-                        HashSet<int> motherSpouses = HentaiUtility.GetAllAliveAdored(info.MotherCharId);
-                        foreach (var item in motherSpouses)
-                        {
-                            if (item.Equals(info.FatherCharId))
-                            {
-                                flag2 = true;
-                                break;
-                            }
-                        }
-                    }
-                }
-                
-               
-               
-                createIntelligentCharacterModification.CreateFatherRelation = (info.PregnantState != null && (flag1||info.PregnantState.CreateFatherRelation || info.FatherCharId != info.PregnantState.FatherId));
-                createIntelligentCharacterModification.CreateMotherRelation = (pregnantState != null && (flag2||pregnantState.CreateMotherRelation));
-                createIntelligentCharacterModification.ReincarnationCharId = info.ReincarnationCharId;
-                CreateIntelligentCharacterModification mod = createIntelligentCharacterModification;
-                Character character = new Character(info.CharTemplateId);
-                mod.Self = character;
-                character.OfflineCreateIntelligentCharacter(context, mod, ref info);
-                if (recordModification)
-                {
-                    ParallelModificationsRecorder recorder = context.ParallelModificationsRecorder;
-                    recorder.RecordType(ParallelModificationType.CreateIntelligentCharacter);
-                    recorder.RecordParameterClass<CreateIntelligentCharacterModification>(mod);
-                    recorder.RecordParameterUnmanaged<bool>(true);
-                }
-
-                Debuglogger.Log(
-                    " Is Taiwu event" +
-                    " FatherCharId:" + createIntelligentCharacterModification.FatherCharId +
-                    " MotherCharId:" + createIntelligentCharacterModification.MotherCharId +
-                    " CreateFatherRelation:" + createIntelligentCharacterModification.CreateFatherRelation +
-                    " InfoPregnantStateCreateFatherRelation:" + pregnantState.CreateFatherRelation +
-                    " InfoPregnantStateFatherCharId:" + pregnantState.FatherId +
-                    " CreateMotherRelation:" + createIntelligentCharacterModification.CreateMotherRelation +
-                    " ReincarnationCharId:" + createIntelligentCharacterModification.ReincarnationCharId +
-                    " recordModification:" + recordModification
-                    );
-                //PropertyInfo[] propertyInfos = DomainManager.Character.GetType().GetProperties();
-                //foreach (var item in propertyInfos)
-                //{
-                //    Debuglogger.Log(" propertyInfos:" + item.Name + " PropertyType.Name:" + item.PropertyType.Name + " Attributes:" + item.Attributes.ToString());
-
-
-                // }
-                //FieldInfo[] fieldAttributes = DomainManager.Character.GetType().GetFields();
-                //foreach (var item in fieldAttributes)
-                //{
-                //    Debuglogger.Log(" fieldAttributes:" + item.Name + " FieldInfo.Name:" + item.FieldType.Name + " Attributes:" + item.Attributes.ToString());
-
-
-                //}
-                //IEnumerable<FieldInfo> runTimeFieldAttributes = DomainManager.Character.GetType().GetRuntimeFields();
-                //Dictionary<int, RelatedCharacters> _relatedCharIds=new Dictionary<int, RelatedCharacters>();
-                //foreach (var item in runTimeFieldAttributes)
-                //{
-                //    Debuglogger.Log(" runTimeFieldAttributes:" + item.Name + " FieldInfo.Name:" + item.FieldType.Name + " Attributes:" + item.Attributes.ToString());
-                //    if (item.Name.Equals("_relatedCharIds"))
-                //    {
-                //        _relatedCharIds = (Dictionary<int, RelatedCharacters>)item.GetValue(DomainManager.Character);
-                //        Debuglogger.Log("Hit _relatedCharIds");
-                //    }
-                //}
-                //if (_relatedCharIds != null)
-                //{
-                    
-                //    Debuglogger.Log("_relatedCharIds.size:"+ _relatedCharIds.Count);
-                    
-                //}
-                __result = mod;
-                return false;
-
             }
+            
             return true;
         }
       

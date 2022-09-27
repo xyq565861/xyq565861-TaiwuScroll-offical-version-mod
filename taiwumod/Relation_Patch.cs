@@ -1,5 +1,6 @@
 ﻿extern alias gd;
 
+using gd::GameData.Domains;
 using gd::GameData.Domains.Character;
 using gd::GameData.Domains.Character.Ai;
 using gd::GameData.Domains.Character.Relation;
@@ -16,10 +17,15 @@ namespace Taiwuhentai
     class Relation_Patch
     {
         [HarmonyPatch("GetStartRelationSuccessRate_BoyOrGirlFriend")]
-        static void Postfix(ref int __result) {
+        static void Postfix(ref int __result,Character selfChar, Character targetChar) {
 
+            int charidTaiwu = DomainManager.Taiwu.GetTaiwuCharId();
+            if (charidTaiwu != selfChar.GetId() && charidTaiwu != targetChar.GetId())
+            {
+                return;
+            }
 
-            Debuglogger.Log("Origin successRate BoyOrGirlFriend  "+ __result);
+            Debuglogger.Log("Taiwu BoyOrGirlFriend event, Origin successRate BoyOrGirlFriend  " + __result);
 
             if (Taiwuhentai.rateOfConfession>0&& __result < Taiwuhentai.rateOfConfession*10)
             {
