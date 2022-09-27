@@ -19,7 +19,7 @@ namespace Taiwuhentai
 			this.HarmonyInstance.PatchAll(typeof(ModDomain_Patch));
 			this.HarmonyInstance.PatchAll(typeof(RelationType_Patch));
 			this.HarmonyInstance.PatchAll(typeof(Relation_Patch));
-			this.HarmonyInstance.PatchAll(typeof(Test));
+			this.HarmonyInstance.PatchAll(typeof(CharacterDomain_Patch));
 
 			Debuglogger.Log("injected back plugin dll");
 

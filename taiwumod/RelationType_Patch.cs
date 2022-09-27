@@ -15,12 +15,16 @@ namespace Taiwuhentai
 	class RelationType_Patch
 	{
 		[HarmonyPatch("AllowAddingHusbandOrWifeRelation")]
-		static bool Prefix(ref bool __result, int charId, int relatedCharId)
+		static void Postfix(ref bool __result, int charId, int relatedCharId)
 		{
+			
 			int charidTaiwu = DomainManager.Taiwu.GetTaiwuCharId();
 			Debuglogger.Log("in RelationType marry event" + " charId " + charId + " relatedCharId " + relatedCharId + " taiwuid " + charidTaiwu + "charIdtaiwu?" + (charId == charidTaiwu) + "relatedCharIdchartaiwu?" + (relatedCharId == charidTaiwu));
 
-
+			if(charidTaiwu!= charId&& charidTaiwu!= relatedCharId)
+            {
+				return;
+            }
 			bool flag = (DomainManager.Character.GetAliveSpouse(charId) >= 0 && !Taiwuhentai.unrestrainedSpouseNum) || (DomainManager.Character.GetAliveSpouse(relatedCharId) >= 0 && !Taiwuhentai.unrestrainedSpouseNum);
 
 			if (flag)
@@ -71,7 +75,7 @@ namespace Taiwuhentai
 					}
 				}
 			}
-			return false;
+			return ;
 		}
 
 	}
