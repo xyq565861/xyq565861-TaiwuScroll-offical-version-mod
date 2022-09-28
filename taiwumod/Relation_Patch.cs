@@ -16,21 +16,63 @@ namespace Taiwuhentai
     [HarmonyPatch(typeof(AiHelper.Relation))]
     class Relation_Patch
     {
-        [HarmonyPatch("GetStartRelationSuccessRate_BoyOrGirlFriend")]
-        static void Postfix(ref int __result,Character selfChar, Character targetChar) {
 
+        [HarmonyPatch("GetStartRelationSuccessRate_BoyOrGirlFriend")]
+        static void Postfix(ref int __result,Character selfChar, Character targetChar) 
+        {
+            int selfCharId = selfChar.GetId();
+            int targetCharId = targetChar.GetId();
             int charidTaiwu = DomainManager.Taiwu.GetTaiwuCharId();
-            if (charidTaiwu != selfChar.GetId() && charidTaiwu != targetChar.GetId())
+
+            if (charidTaiwu == selfCharId || charidTaiwu == targetCharId)
             {
+                if (Taiwuhentai.rateOfConfessionTaiwu > 0 && __result < Taiwuhentai.rateOfConfessionTaiwu * 10)
+                {
+                    __result = Taiwuhentai.rateOfConfession * 10;
+
+                }
                 return;
             }
 
-            Debuglogger.Log("Taiwu BoyOrGirlFriend event, Origin successRate BoyOrGirlFriend  " + __result);
 
-            if (Taiwuhentai.rateOfConfession>0&& __result < Taiwuhentai.rateOfConfession*10)
+            if (Taiwuhentai.preventTaiwuSpouseStray)
             {
-                __result = Taiwuhentai.rateOfConfession * 10;
+                HashSet<int> taiwuSpouse = HentaiUtility.GetTaiwuAliveSpousePool();
+                if(taiwuSpouse.Contains(selfCharId)|| taiwuSpouse.Contains(targetCharId))
+                {
+                    __result = -100;
+                    return;
+                }
+                HashSet<int> taiwuAdored = HentaiUtility.GetTaiwuAliveAdoredPool();
+                if (taiwuAdored.Contains(selfCharId) || taiwuAdored.Contains(targetCharId))
+                {
+                    __result = -100;
+                    return;
+                }
             }
+
+            if (Taiwuhentai.rateOfConfession != 1 && __result > 0)
+            {
+                switch (Taiwuhentai.rateOfConfession)
+                {
+                    case 0:
+                        __result = (int)(__result * Taiwuhentai.rateOfConfession * 0.5);
+                        break;
+                    case 2:
+                        __result = __result * Taiwuhentai.rateOfConfession * 2;
+                        break;
+
+                }
+               
+
+            }
+            return;
+
         }
+
     }
+
+
+   
+
 }

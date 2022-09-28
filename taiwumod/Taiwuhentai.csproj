@@ -39,6 +39,10 @@
       <HintPath>E:\STEAM\steamapps\common\The Scroll Of Taiwu\Backend\GameData.dll</HintPath>
       <Aliases>gd</Aliases>
     </Reference>
+    <Reference Include="Redzen, Version=12.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>E:\STEAM\steamapps\common\The Scroll Of Taiwu\Backend\Redzen.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -61,7 +65,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Character_Patch.cs" />
     <Compile Include="CharacterDomain_Patch.cs" />
+    <Compile Include="PregnantState_Patch.cs" />
     <Compile Include="Relation_Patch.cs" />
     <Compile Include="Debuglogger.cs" />
     <Compile Include="ModDomain_Patch.cs" />

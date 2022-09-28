@@ -4,6 +4,7 @@ using gd::Config;
 using gd::GameData.Domains;
 using gd::GameData.Domains.Character.Ai;
 using gd::GameData.Domains.Character.Relation;
+using gd::GameData.Domains.TaiwuEvent.EventHelper;
 using System.Collections.Generic;
 using System.Reflection;
 using Character = gd::GameData.Domains.Character.Character;
@@ -172,7 +173,7 @@ namespace Taiwuhentai
 					HashSet<int> spouseCharIdsSub = relatedChars.Adored.GetCollection();
 					foreach (int spouseCharId in spouseCharIdsSub)
 					{
-						Debuglogger.Log("spouseCharId "+ spouseCharId);
+						Debuglogger.Log("spouseCharId " + spouseCharId);
 						bool flag2 = DomainManager.Character.IsCharacterAlive(spouseCharId);
 						if (flag2)
 						{
@@ -186,5 +187,50 @@ namespace Taiwuhentai
 			}
 			return spouseCharIds;
 		}
-	}
+
+
+        public static HashSet<int> GetTaiwuAliveSpousePool()
+		{
+			int gameDate = EventHelper.GetGameDate();
+			if (taiwuAliveSpousePool.poolDate != gameDate)
+            {
+				int taiwuId = DomainManager.Taiwu.GetTaiwuCharId();
+				taiwuAliveSpousePool.characterIdPool = GetAllAliveSpouse(taiwuId);
+				taiwuAliveSpousePool.poolDate= gameDate;
+
+			}
+
+			return taiwuAliveSpousePool.characterIdPool;
+
+		}
+		public static HashSet<int> GetTaiwuAliveAdoredPool()
+		{
+			int gameDate = EventHelper.GetGameDate();
+			if (taiwuAliveAdoredool.poolDate != gameDate)
+			{
+				int taiwuId = DomainManager.Taiwu.GetTaiwuCharId();
+				taiwuAliveAdoredool.characterIdPool = GetAllAliveAdored(taiwuId);
+				taiwuAliveAdoredool.poolDate = gameDate;
+
+			}
+
+			return taiwuAliveSpousePool.characterIdPool;
+		}
+		static HentaiCharacterIdPool taiwuAliveSpousePool;
+		static HentaiCharacterIdPool taiwuAliveAdoredool;
+		struct HentaiCharacterIdPool
+        {
+			public int poolDate;
+			public HashSet<int> characterIdPool;
+            HentaiCharacterIdPool(int gameDate, HashSet<int> anyIdPool)
+            {
+				poolDate = gameDate;
+				characterIdPool = anyIdPool;
+            }
+
+		}
+		
+
+
+    }
 }
