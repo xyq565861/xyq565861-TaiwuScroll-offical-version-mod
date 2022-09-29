@@ -28,8 +28,9 @@ namespace Taiwuhentai
             {
                 if (Taiwuhentai.rateOfConfessionTaiwu > 0 && __result < Taiwuhentai.rateOfConfessionTaiwu * 10)
                 {
-                    __result = Taiwuhentai.rateOfConfession * 10;
-
+                    Debuglogger.Log("rateOfConfessionTaiwu a " + __result);
+                    __result = Taiwuhentai.rateOfConfessionTaiwu * 10;
+                    Debuglogger.Log("rateOfConfessionTaiwu b " + __result);
                 }
                 return;
             }
@@ -56,10 +57,10 @@ namespace Taiwuhentai
                 switch (Taiwuhentai.rateOfConfession)
                 {
                     case 0:
-                        __result = (int)(__result * Taiwuhentai.rateOfConfession * 0.5);
+                        __result = (int)(__result  * 0.5);
                         break;
                     case 2:
-                        __result = __result * Taiwuhentai.rateOfConfession * 2;
+                        __result = __result * 2;
                         break;
 
                 }

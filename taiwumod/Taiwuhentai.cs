@@ -43,7 +43,7 @@ namespace Taiwuhentai
 		//}
 		public override void OnModSettingUpdate()
 		{
-			DomainManager.Mod.GetSetting(base.ModIdStr, "unrestrainedSpouse", ref Taiwuhentai.unrestrainedSpouseNum);
+			DomainManager.Mod.GetSetting(base.ModIdStr, "unrestrainedSpouseNum", ref Taiwuhentai.unrestrainedSpouseNum);
 			DomainManager.Mod.GetSetting(base.ModIdStr, "unrestrainedSpouseFactions", ref Taiwuhentai.unrestrainedSpouseFactions);
 			DomainManager.Mod.GetSetting(base.ModIdStr, "spouseAge", ref Taiwuhentai.spouseAge);
 			DomainManager.Mod.GetSetting(base.ModIdStr, "fertilityIgnoreAgeTaiwu", ref Taiwuhentai.fertilityIgnoreAgeTaiwu);

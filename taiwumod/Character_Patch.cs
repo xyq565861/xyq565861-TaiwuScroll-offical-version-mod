@@ -16,32 +16,51 @@ namespace Taiwuhentai
 	class Character_Patch
 	{
 		[HarmonyPatch("CalcFertility")]
-		static void Postfix(Character __instance, short __result)
+		static void Postfix(Character __instance, ref short __result)
 		{
+			
 			int taiwuId = DomainManager.Taiwu.GetTaiwuCharId();
-            if (Taiwuhentai.fertilityIgnoreAgeTaiwu)
-            {
+			if (Taiwuhentai.fertilityIgnoreAgeTaiwu)
+			{
 				if (taiwuId == __instance.GetId())
 				{
 					__result = (short)(__result + 100);
+					Debuglogger.Log("taiwuId" + __result);
 					return;
 				}
 			}
-            if (Taiwuhentai.fertilityIgnoreAgeTaiwuSpouse)
-            {
+			if (Taiwuhentai.fertilityIgnoreAgeTaiwuSpouse)
+			{
 
 				if (HentaiUtility.GetTaiwuAliveSpousePool().Contains(__instance.GetId()))
-                {
+				{
 					__result = (short)(__result + 100);
+					Debuglogger.Log("GetTaiwuAliveSpousePool" + __result);
+
 					return;
 				}
 				if (HentaiUtility.GetTaiwuAliveAdoredPool().Contains(__instance.GetId()))
 				{
 					__result = (short)(__result + 100);
+					Debuglogger.Log("GetTaiwuAliveAdoredPool" + __result);
+
 					return;
 				}
 
 			}
 		}
+
+		[HarmonyPatch("OfflineMakeLove")]
+		static void Postfix(Character __instance,  bool __result, Character father, Character mother)
+		{
+			int fatherId = father.GetId();
+			int motherId = mother.GetId();
+			int charidTaiwu = DomainManager.Taiwu.GetTaiwuCharId();
+			if (charidTaiwu == fatherId || charidTaiwu == motherId)
+			{ 
+				Debuglogger.Log("OfflineMakeLove" + __result);
+			}
+		}
 	}
+
 }

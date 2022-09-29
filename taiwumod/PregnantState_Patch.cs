@@ -19,7 +19,7 @@ namespace Taiwuhentai
     class PregnantState_Patch
     {
         [HarmonyPatch("CheckPregnant")]
-        public static void Postfix(bool __result, IRandomSource random, Character father, Character mother)
+        public static void Postfix(ref bool __result, IRandomSource random, Character father, Character mother)
         {
             int num;
             int fatherId = father.GetId();
@@ -44,7 +44,8 @@ namespace Taiwuhentai
                             __result = flagGender && flagMotherStatus && random.CheckPercentProb((int)2 * randomElement);
                             break;
                         case 4:
-                            __result = flagGender && flagMotherStatus ;                            
+                            __result = flagGender && flagMotherStatus ;
+                            Debuglogger.Log("CheckPregnant Taiwu 4 " + __result);
                             break;
                     }                   
 

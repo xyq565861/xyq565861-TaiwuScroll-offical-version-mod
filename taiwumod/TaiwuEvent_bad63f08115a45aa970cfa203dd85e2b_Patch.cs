@@ -108,18 +108,24 @@ namespace Taiwuhentai
 					bool flag4 = (flag3 || EventHelper.RoleHasAliveSpouse(charId));
 					if (flag4)
 					{
+						Debuglogger.Log("injected marry event option10 flag3,4);" + flag4);
+
 						__result = false;
 						return false;
 					}
 					bool flag5 = (EventHelper.GetRoleMonkType(character2) != 0 && !Taiwuhentai.unrestrainedSpouseFactions) || !HentaiUtility.CanStartHusbandOrWife(character.GetId(), character2.GetId(), 1024);
 					if (flag5)
 					{
+						Debuglogger.Log("injected marry event option10 flag5);"+ flag5);
+
 						__result = false;
 						return false;
 					}
 					bool flag6 = character2.OrgAndMonkTypeAllowMarriage() || Taiwuhentai.unrestrainedSpouseFactions;
 					if (flag6)
 					{
+						Debuglogger.Log("injected marry event option10 flag6);"+ flag6);
+
 						__result = true;
 						return false;
 					}
