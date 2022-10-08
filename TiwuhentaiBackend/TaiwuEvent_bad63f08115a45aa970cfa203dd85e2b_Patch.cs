@@ -39,11 +39,11 @@ namespace Taiwuhentai
 				bool flag2 = EventHelper.GetRoleAge(character) >= Taiwuhentai.spouseAge && EventHelper.GetRoleAge(character2) >= Taiwuhentai.spouseAge && EventHelper.CheckHasRelationship(character, character2, 8192) && (!EventHelper.CheckHasRelationship(character, character2, 512) || Taiwuhentai.bloodTies);
 				if (flag2)
 				{
-					Debuglogger.Log("injected ExpressLove event option10 flag2);" + flag2);
+					Debuglogger.Log("injected ExpressLove event option9 flag2);" + flag2);
 					bool flag3 = EventHelper.CheckHasRelationship(character, character2, 16384) && EventHelper.CheckHasRelationship(character2, character, 16384);
 					if (flag3)					
 					{
-						Debuglogger.Log("injected ExpressLove event option10 flag3);" + flag3);
+						Debuglogger.Log("injected ExpressLove event option9 flag3);" + flag3);
 						__result = false;
 						return false;
 					}
@@ -52,7 +52,7 @@ namespace Taiwuhentai
 						bool flag4 = (EventHelper.CheckHasRelationship(character, character2, 2048) || EventHelper.CheckHasRelationship(character2, character, 2048)) && !Taiwuhentai.bloodTies;
 						if (flag4)
 						{
-							Debuglogger.Log("injected ExpressLove event option10 flag4);" + flag4);
+							Debuglogger.Log("injected ExpressLove event option9 flag4);" + flag4);
 
 							__result = false;
 							return false;
@@ -60,7 +60,7 @@ namespace Taiwuhentai
 						else
 						{
 							bool flag5 = (EventHelper.HasNominalBloodRelation(character.GetId(), character2.GetId()) && !Taiwuhentai.bloodTies) || (EventHelper.HasBloodExclusionRelation(character.GetId(), character2.GetId()) && !Taiwuhentai.bloodTies);
-							Debuglogger.Log("injected ExpressLove event option10 flag5);" + flag5);
+							Debuglogger.Log("injected ExpressLove event option9 flag5);" + flag5);
 
 							__result = !flag5;
 						}

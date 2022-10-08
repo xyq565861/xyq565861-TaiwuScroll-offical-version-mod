@@ -14,26 +14,29 @@ namespace TaiwuhentaiFront
 		
 		public override void Initialize()
 		{
-			UnityEngine.Debug.LogError("！！！！！！！！！！！！！！！！！！！！！！！！！！！！");
+			
 
 			harmony = new Harmony("Taiwuhentai front");
-			harmony.PatchAll(typeof(UI_CharacterShave_Patch));
+			harmony.PatchAll(typeof(UI_CharacterMenuInfo_Patch));
+			harmony.PatchAll(typeof(MouseTipCharacter_Patch));
 
-			UnityEngine.Debug.LogError("********************************");
+		
 
 		}
 
 		public override void OnModSettingUpdate()
 		{
 
-			ModManager.GetSetting(base.ModIdStr, "displayGlamour", ref TaiwuhentaiFront.displayGlamour);
+			ModManager.GetSetting(base.ModIdStr, "ageMirror", ref TaiwuhentaiFront.ageMirror);
+			ModManager.GetSetting(base.ModIdStr, "showAge", ref TaiwuhentaiFront.showAge);
 			ModManager.GetSetting(base.ModIdStr, "debugMode", ref TaiwuhentaiFront.debugMode);
 
-			Debuglogger.Log(string.Format("front plugin setting complete:\n displayGlamour:{0}\n debugMode:{1}\n harmony:{2}", new object[]
+			Debuglogger.Log(string.Format("front plugin setting complete:\n ageMirror:{0}\n showAge:{1}\n debugMode:{2}\n harmony:{3}", new object[]
 			{
-				TaiwuhentaiFront.displayGlamour,
+				TaiwuhentaiFront.ageMirror,
+				TaiwuhentaiFront.showAge,
 				TaiwuhentaiFront.debugMode,
-				(harmony==null).ToString()
+				(harmony!=null).ToString()
 				
 			}));
 		}
@@ -51,7 +54,8 @@ namespace TaiwuhentaiFront
 
 
 		static Harmony harmony;
-		public static bool displayGlamour;
+		public static bool ageMirror;
+		public static int showAge;
 		public static bool debugMode;
 	}
 }

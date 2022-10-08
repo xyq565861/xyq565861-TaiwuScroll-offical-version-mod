@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+    <RootNamespace>Taiwuhentai</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>E:\STEAM\steamapps\common\The Scroll Of Taiwu\The Scroll of Taiwu_Data\Managed\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="GameData">
+      <HintPath>E:\STEAM\steamapps\common\The Scroll Of Taiwu\Backend\GameData.dll</HintPath>
+      <Aliases>gd</Aliases>
+    </Reference>
+    <Reference Include="Redzen">
+      <HintPath>E:\STEAM\steamapps\common\The Scroll Of Taiwu\Backend\Redzen.dll</HintPath>
+    </Reference>
+    <Reference Include="TaiwuModdingLib">
+      <HintPath>E:\STEAM\steamapps\common\The Scroll Of Taiwu\The Scroll of Taiwu_Data\Managed\TaiwuModdingLib.dll</HintPath>
+    </Reference>
+    <Reference Include="Taiwu_EventPackage_CharacterInteraction_Chat">
+      <HintPath>E:\STEAM\steamapps\common\The Scroll Of Taiwu\Event\EventLib\Taiwu_EventPackage_CharacterInteraction_Chat.dll</HintPath>
+    </Reference>
+    <Reference Include="Taiwu_EventPackage_CharacterInteraction_Interact">
+      <HintPath>E:\STEAM\steamapps\common\The Scroll Of Taiwu\Event\EventLib\Taiwu_EventPackage_CharacterInteraction_Interact.dll</HintPath>
+    </Reference>
+    <Reference Include="Taiwu_EventPackage_CharacterInteraction_Main">
+      <HintPath>E:\STEAM\steamapps\common\The Scroll Of Taiwu\Event\EventLib\Taiwu_EventPackage_CharacterInteraction_Main.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

@@ -6,15 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-namespace TaiwuhentaiFront
+namespace Taiwuhentai
 {
-
 	public static class Debuglogger
 	{
 		public static void Log(object text)
 		{
 
-			if (TaiwuhentaiFront.debugMode && text != null)
+			if (Taiwuhentai.debugMode && text != null)
 			{
 
 
@@ -27,8 +26,7 @@ namespace TaiwuhentaiFront
 						StreamWriter streamWriter = new StreamWriter(fs);
 						string str = Convert.ToString(text);
 						DateTime now = DateTime.Now;
-						//UnityEngine.Debug.LogError(str);
-						streamWriter.WriteLine(string.Format("Front plugin:{0}-{1}-{2} {3}:{4}:{5}：{6}.", new object[]
+						streamWriter.WriteLine(string.Format("Back plugin:{0}-{1}-{2} {3}:{4}:{5}：{6}.", new object[]
 						{
 						now.Year,
 						now.Month,
