@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MirrorServer\MirrorNet.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="0Harmony">
+      <HintPath>E:\STEAM\steamapps\common\The Scroll Of Taiwu\The Scroll of Taiwu_Data\Managed\0Harmony.dll</HintPath>
+    </Reference>
+    <Reference Include="GameData">
+      <HintPath>E:\STEAM\steamapps\common\The Scroll Of Taiwu\Backend\GameData.dll</HintPath>
+    </Reference>
+    <Reference Include="Redzen">
+      <HintPath>E:\STEAM\steamapps\common\The Scroll Of Taiwu\Backend\Redzen.dll</HintPath>
+    </Reference>
+    <Reference Include="TaiwuModdingLib">
+      <HintPath>E:\STEAM\steamapps\common\The Scroll Of Taiwu\The Scroll of Taiwu_Data\Managed\TaiwuModdingLib.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

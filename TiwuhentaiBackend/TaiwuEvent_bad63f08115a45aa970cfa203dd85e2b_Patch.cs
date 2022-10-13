@@ -114,7 +114,7 @@ namespace Taiwuhentai
 					bool flag4 = (flag3 || EventHelper.RoleHasAliveSpouse(charId));
 					if (flag4)
 					{
-						Debuglogger.Log("injected marry event option10 flag3,4);" + flag4);
+						Debuglogger.Log("injected marry event option10 flag3,4);" + flag3+flag4);
 
 						__result = false;
 						return false;
