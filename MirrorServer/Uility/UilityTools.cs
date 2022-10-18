@@ -14,5 +14,9 @@ namespace MirrorNet
             timer.Start();
 
         }
+        //public static int pluse(long a, long b)
+        //{
+        //    return (int)a + (int)b + TestEntity.b;
+        //}
     }
 }

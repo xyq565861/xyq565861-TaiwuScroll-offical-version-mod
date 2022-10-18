@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using MirrorNet;
 using Newtonsoft.Json;
 
@@ -18,55 +20,51 @@ namespace TestApp1
 
             if (strBuffer.Contains("A") || strBuffer.Contains("a"))
             {
-                MirrorServer mirrorServer = new MirrorServer("Taiwu/Hentai/Mirrorpipe");
+                TaiwuBakenServer taiwuBakenServer = new TaiwuBakenServer("Taiwu/Hentai/Mirrorpipe");
+                taiwuBakenServer.Start();
+                //MirrorServer mirrorServer = new MirrorServer("Taiwu/Hentai/Mirrorpipe");
 
-                mirrorServer.ServerMessageReceivedEvent += ServerMessageReceived;
-                mirrorServer.ServerClientConnectedEvent += ClientConnectedEvent;
-                mirrorServer.ServerClientDisconnectedEvent += ClientDisconnectedEvent;
-                mirrorServer.Start();
+                //mirrorServer.ServerMessageReceivedEvent += ServerMessageReceived;
+                //mirrorServer.ServerClientConnectedEvent += ClientConnectedEvent;
+                //mirrorServer.ServerClientDisconnectedEvent += ClientDisconnectedEvent;
+                //mirrorServer.Start();
                 while (true)
                 {
                     strBuffer = Console.ReadLine();
-                    QueryMsg msg = new QueryMsg();
-                    msg.Initialize(strBuffer);
-                    mirrorServer.SendAll(msg.ProtocolDataUnit);
+
                 }
 
 
             }
             else if (strBuffer.Contains("B") || strBuffer.Contains("b"))
             {
-                MirrorClient mirrorClient = new MirrorClient("Taiwu/Hentai/Mirrorpipe");
-                mirrorClient.ServerMessageReceivedEvent += MessageReceived;
-                mirrorClient.ServerClientConnectedEvent += ClientConnectedEvent;
-                mirrorClient.ServerClientDisconnectedEvent += ClientDisconnectedEvent;
-                mirrorClient.Start();
+                TaiwuFrontClient taiwuFrontClient = new TaiwuFrontClient("Taiwu/Hentai/Mirrorpipe");
+                taiwuFrontClient.Start();
+                //MirrorClient mirrorClient = new MirrorClient("Taiwu/Hentai/Mirrorpipe");
+                //mirrorClient.ServerMessageReceivedEvent += MessageReceived;
+                //mirrorClient.ServerClientConnectedEvent += ClientConnectedEvent;
+                //mirrorClient.ServerClientDisconnectedEvent += ClientDisconnectedEvent;
+                //mirrorClient.Start();
                 while (true)
                 {
 
                     strBuffer = Console.ReadLine();
-                    QueryMsg msg = new QueryMsg();
+                    try
+                    {
+                        //TaiwuQuery tm = new TaiwuQuery();
+                        //tm.Initialize("MirrorNet", "MirrorNet", "UilityTools", "pluse", new List<object> { 7, 5 });
+                        //QueryMsg qm = new QueryMsg();
 
-
-                    Dictionary<object, string> dict = new Dictionary<object, string>();
-                    List<QueryMsg> ls = new List<QueryMsg>();
-                    QueryMsg a = new QueryMsg();
-                    a.Initialize("qweqweas");
-
-                    QueryMsg b = new QueryMsg();
-                    b.Initialize("12312312");
-                    ls.Add(a);
-                    ls.Add(b);
-                    dict[1] = "int";
-                    dict["asdasdasd"] = "string";
-                    dict[ls] =ls.GetType().FullName;
-
-
-                    strBuffer = Query("MirroNet","Charnars","ASDQWE",dict);
-                    msg.Initialize(strBuffer );
-                    byte[] buffer = msg.ProtocolDataUnit;
-
-                    mirrorClient.Send(buffer);
+                        object obj=taiwuFrontClient.Query("MirrorNet", "MirrorNet", "UilityTools", "pluse", new List<object> { 7, 5 });
+                        //qm.Initialize(tm.ProtocolDataUnit, tm.id);
+                        //int i = (int)QueryCall(qm);
+                        Console.WriteLine(obj);
+                    }
+                    catch(Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                        Console.WriteLine(ex.StackTrace);
+                    }
 
 
                 }
@@ -77,17 +75,24 @@ namespace TestApp1
             }
         }
 
-        public static string Query(string namespaceStr, string classStr,string mechodStr, Dictionary<object, string> args)
-        {
-            string str= namespaceStr;
-            str += "_+_";           
-             str += classStr;
-            str += "_+_";            
-             str += mechodStr;
-            str += "_+_";
-            str += JsonConvert.SerializeObject(args);
-            return str;
-        }
+        //private static object QueryCall(QueryMsg queryMsg)
+        //{
+        //    TaiwuQuery taiwuQuery = new TaiwuQuery(queryMsg.CallId);
+        //    taiwuQuery.TryFormate(queryMsg.Massage);
+        //    System.Reflection.Assembly m_Assembly = System.Reflection.Assembly.Load(taiwuQuery.Assemblystr);
+        //    Type t = m_Assembly.GetType(taiwuQuery.NamespaceStr + "." + taiwuQuery.ClassStr);
+        //    System.Object obj = Activator.CreateInstance(t);
+        //    MethodInfo method = t.GetMethod(taiwuQuery.MethodStr);
+        //    BindingFlags flag = BindingFlags.Static | BindingFlags.IgnoreCase;
+        //    //ParameterInfo[] paramInfos = method.GetParameters();
+        //    //LinkedList<object> ts = new LinkedList<object>();
+        //    object[] parameters = taiwuQuery.Args.ToArray();
+
+            
+        //    object returnValue = method.Invoke(obj, flag, Type.DefaultBinder, parameters, null);
+        //    return returnValue;
+        //}
+
         static private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
 
@@ -115,21 +120,7 @@ namespace TestApp1
                 var Server = sender as MirrorServer;
                 if (Server != null)
                 {
-                    QueryMsg msg = new QueryMsg();
-                    try
-                    {
-                        msg.TryFormate(e.Data);
 
-                        QueryMsg repMsg = new QueryMsg();
-                        repMsg.Initialize("Server get massage" + msg.Massage + e.ClientId);
-                        Server.Send(repMsg.ProtocolDataUnit, e.ClientId);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-
-                    }
-                    Console.WriteLine(msg.Massage);
 
 
                 }

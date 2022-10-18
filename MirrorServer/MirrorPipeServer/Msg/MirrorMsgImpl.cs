@@ -13,15 +13,17 @@ namespace MirrorNet
         {
 
         }
-        public MirrorMsgImpl(byte functionCode)
+        public MirrorMsgImpl(byte FunctionCode,string CallId)
         {
-            FunctionCode = functionCode;
+            functionCode = FunctionCode;
+            callId = CallId;
         }
-        public byte FunctionCode { get; set; }
-        public long Token { get; set; }
-        public ulong Length { get; set; }
-        public byte[] Data { get; set; }
         
+        public byte functionCode;
+        public long token;
+        public ulong length;
+        public byte[] data;
 
+        public string callId; 
     }
 }

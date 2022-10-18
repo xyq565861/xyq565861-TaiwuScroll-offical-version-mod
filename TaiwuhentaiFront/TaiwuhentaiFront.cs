@@ -52,10 +52,12 @@ namespace TaiwuhentaiFront
 
 
 
-
-		static Harmony harmony;
+		
+		public static Harmony harmony;
+		public static string pipName= "Taiwu/Hentai/Mirrorpipe";
 		public static bool ageMirror;
 		public static int showAge;
 		public static bool debugMode;
+		
 	}
 }

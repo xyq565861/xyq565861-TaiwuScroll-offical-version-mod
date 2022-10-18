@@ -8,6 +8,7 @@ namespace MirrorNet
 {
     class TaiwuQueryImpl
     {
+        public string assemblyStr;
         public string namespaceStr;
         public string classStr;
         public string methodStr;

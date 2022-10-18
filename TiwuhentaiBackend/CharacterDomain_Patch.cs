@@ -22,6 +22,15 @@ namespace Taiwuhentai
     [HarmonyPatch(typeof(CharacterDomain))]
     class CharacterDomain_Newbron_Patch
     {
+        [HarmonyPatch("CreatePregnantState")]
+        static void Postfix(CharacterDomain __instance, DataContext context, Character mother, Character father, bool isRaped)
+        {
+            Debuglogger.Log(string.Format("context{0}-mother{1}-father{2}-isRaped{3}", context, mother.GetId(), father.GetId(), isRaped)); ;
+            PregnantState pregnantState = new PregnantState();
+            Debuglogger.Log(" GetPregnantState(int )" + mother.GetId() + __instance.TryGetPregnantState(mother.GetId(), out pregnantState));
+        }
+
+
         [HarmonyPatch("ParallelCreateNewbornChildren")]
         public static IEnumerable<CodeInstruction> Transpiler(MethodBase __originalMethod, IEnumerable<CodeInstruction> instructions, ILGenerator il)
         {

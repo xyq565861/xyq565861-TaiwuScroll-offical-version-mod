@@ -5,23 +5,19 @@ using GameData.Domains;
 using GameData.Domains.Character;
 using GameData.Domains.Character.Creation;
 using GameData.Domains.Character.Display;
-using GameData.Domains.Taiwu;
 using GameData.Serializer;
 using GameData.Utilities;
 using HarmonyLib;
+using MirrorNet;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Reflection;
 using TMPro;
 using UICommon.Character.Avatar;
-using UnityEngine;
 using UnityEngine.Assertions;
-
 namespace TaiwuhentaiFront
 {
-	[HarmonyPatch(typeof(MouseTipCharacter))]
+    [HarmonyPatch(typeof(MouseTipCharacter))]
 	class MouseTipCharacter_Patch
 	{
 
@@ -83,7 +79,7 @@ namespace TaiwuhentaiFront
 			{
 				isChaste = 3;
 			}
-
+			Debuglogger.Log("OnHentaiCharDisplayData" + offset + "bb" + tipCharId);
 			featureMonitor.FeatureIds.Contains(218);
 			_displayData.AvatarRelatedData.DisplayAge = showAge;
 			string charMonasticTitleOrNameByDisplayData = NameCenter.GetCharMonasticTitleOrNameByDisplayData(_displayData, tipCharId == SingletonObject.getInstance<BasicGameData>().TaiwuCharId, false);
@@ -121,6 +117,7 @@ namespace TaiwuhentaiFront
 			SetRefersValues(tipInstance,"CharacterGender", CommonUtils.GetGenderString(_displayData.Gender), CommonUtils.GetGenderIcon(_displayData.Gender));
 			SetRefersValues(tipInstance,"CharacterBehavior", CommonUtils.GetBehaviorString(_displayData.BehaviorType), Config.BehaviorType.Instance.GetItem((short)_displayData.BehaviorType).Icon);
 			SetRefersValues(tipInstance,"CharacterIdentity", CommonUtils.GetCharacterGradeString(_displayData.OrgInfo, _displayData.Gender, showAge), CommonUtils.GetIdentityIcon(_displayData.OrgInfo.Grade));
+			Debuglogger.Log("OnHentaiCharDisplayData" + offset + "aa" + tipCharId);
 
 			tipInstance.AsynchMethodCall<List<int>>(DomainHelper.DomainIds.Character, CharacterDomainHelper.MethodIds.GetGroupCharDisplayDataList, new List<int>
 			{
@@ -141,6 +138,37 @@ namespace TaiwuhentaiFront
 		}
 		private static void HentaiOnGetGroupCharDisplayData(int offset, RawDataPool dataPool)
 		{
+			Assembly assem = Assembly.GetExecutingAssembly();
+			Debuglogger.Log($"程序集全名:{assem.FullName}");
+			Debuglogger.Log($"程序集的版本：{assem.GetName().Version}");
+			Debuglogger.Log($"程序集位置：{assem.Location}");
+			Debuglogger.Log($"程序集入口：{assem.EntryPoint}");
+			Debuglogger.Log($"获取用于加载程序集的主机上下文：{assem.HostContext}");
+			Debuglogger.Log($"CLR 版本的文件夹名：{assem.ImageRuntimeVersion}");
+			Debuglogger.Log($"当前程序集是否在当前进程中动态生成的：{assem.IsDynamic}");
+			Debuglogger.Log($"当前程序集是否以完全信任方式加载：{assem.IsFullyTrusted}");
+			Debuglogger.Log($"当前程序集清单的模块：{assem.ManifestModule}");
+			Debuglogger.Log($"获取包含此程序集中模块的集合：{assem.Modules}");
+			Debuglogger.Log($"程序集被加载到只反射上下文而不是执行上下文中：{assem.ReflectionOnly}");
+			Debuglogger.Log($"CLR 对此程序集强制执行的安全规则集:{assem.SecurityRuleSet}");
+			Debuglogger.Log("taiwuFrontClient init");
+			TaiwuFrontClient taiwuFrontClient = new TaiwuFrontClient(TaiwuhentaiFront.pipName);
+			Debuglogger.Log("taiwuFrontClient starting");
+			taiwuFrontClient.Start();
+			Debuglogger.Log("taiwuFrontClient start");
+
+			bool flagBex = false;
+			try
+			{
+				object obj = taiwuFrontClient.Query("TaiwuhentaiFrontBackComponent", "TaiwuhentaiFrontBackComponent", "UilityTools", "getGetBisexual", new List<object> { tipCharId });
+				flagBex = (bool)obj;
+
+
+			}
+			catch (Exception ex)
+			{
+				Debuglogger.Log(ex.Message + "\n" + ex.StackTrace);
+			}
 			List<GroupCharDisplayData> list = null;
 			Serializer.Deserialize(dataPool, offset, ref list);
 			GroupCharDisplayData groupCharDisplayData = list[0];
@@ -148,8 +176,8 @@ namespace TaiwuhentaiFront
 			CharacterItem item = Character.Instance.GetItem(_displayData.TemplateId);
 			bool isFixedCharacter = CreatingType.IsFixedPresetType(item.CreatingType);
 			SetRefersValues(tipInstance,"CharacterCharm", groupCharDisplayData.Charm.ToString());
-			sbyte happinessType = HappinessType.GetHappinessType(groupCharDisplayData.Happiness);
-			SetRefersValues(tipInstance, "CharacterHappiness", CommonUtils.GetHappinessString(happinessType), CommonUtils.GetHappinessIcon(happinessType));
+			
+			SetRefersValues(tipInstance, "CharacterHappiness", flagBex?"双性":"单性");
 			SetRefersValues(tipInstance, "CharacterFavorability", CommonUtils.GetFavorString(groupCharDisplayData.FavorabilityToTaiwu), CommonUtils.GetFavorIcon(groupCharDisplayData.FavorabilityToTaiwu));
 			sbyte fameType = FameType.GetFameType(groupCharDisplayData.Fame);
 			SetRefersValues(tipInstance, "CharacterFame", CommonUtils.GetFameString(fameType), CommonUtils.GetFameIcon(fameType));

@@ -47,11 +47,11 @@ namespace Taiwuhentai
                             __result = flagGender && flagMotherStatus&& Pregnancylock && random.CheckPercentProb((int)2 * randomElement);
                             break;
                         case 4:
-
-
-                            RemoveElement_PregnancyLockEndDates
-                            DomainManager.RemoveElement_PregnancyLockEndDates();
-                            __result = flagGender && flagMotherStatus ;
+                            __result = flagGender && flagMotherStatus && Pregnancylock;
+                            Debuglogger.Log("CheckPregnant Taiwu 4 " + __result);
+                            break;
+                        case 5:
+                            __result = flagGender && flagMotherStatus;
                             Debuglogger.Log("CheckPregnant Taiwu 4 " + __result);
                             break;
                     }                   

@@ -49,6 +49,7 @@ namespace MirrorNet
         public void Start()
         {
             StartNamedPipeServer();
+            Debuglogger.Log("Server start at" + _pipeName);
         }
 
         public void Stop()

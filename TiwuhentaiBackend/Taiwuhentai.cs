@@ -21,7 +21,8 @@ namespace Taiwuhentai
 			this.HarmonyInstance.PatchAll(typeof(Relation_Patch));
 			this.HarmonyInstance.PatchAll(typeof(CharacterDomain_Newbron_Patch));
 			this.HarmonyInstance.PatchAll(typeof(CharacterDomain_Marry_Patch));
-			this.HarmonyInstance.PatchAll(typeof(Character_Patch));
+			this.HarmonyInstance.PatchAll(typeof(Character_Patch_PeriAdvanceMonth));
+			this.HarmonyInstance.PatchAll(typeof(Character_Patch_ComplementPeriAdvanceMonth));
 			this.HarmonyInstance.PatchAll(typeof(PregnantState_Patch));
 			//this.HarmonyInstance.PatchAll(typeof(Test));
 
@@ -58,6 +59,8 @@ namespace Taiwuhentai
 			DomainManager.Mod.GetSetting(base.ModIdStr, "rateOfPregnantTaiwu", ref Taiwuhentai.rateOfPregnantTaiwu);
 			DomainManager.Mod.GetSetting(base.ModIdStr, "rateOfPregnant", ref Taiwuhentai.rateOfPregnant);
 			DomainManager.Mod.GetSetting(base.ModIdStr, "lesbianPregnantTaiwu", ref Taiwuhentai.lesbianPregnantTaiwu);
+			DomainManager.Mod.GetSetting(base.ModIdStr, "lesbianPregnantIO", ref Taiwuhentai.lesbianPregnantIO);
+
 			DomainManager.Mod.GetSetting(base.ModIdStr, "noOverheardIllegalMakeLoveTaiwu", ref Taiwuhentai.noOverheardIllegalMakeLoveTaiwu);
 
 			DomainManager.Mod.GetSetting(base.ModIdStr, "debugMode", ref Taiwuhentai.debugMode);
@@ -77,9 +80,10 @@ namespace Taiwuhentai
 				"rateOfPregnantTaiwu:{12}\n" +
 				"rateOfPregnant:{13}\n" +
 				"lesbianPregnantTaiwu:{14}\n" +
-				"noOverheardIllegalMakeLoveTaiwu:{15}\n" +
+				"lesbianPregnantTaiwu:{15}\n" +
+				"noOverheardIllegalMakeLoveTaiwu:{16}\n" +
 
-				"debugMode:{16}\n"
+				"debugMode:{17}\n"
 				, new object[]
 			{
 				Taiwuhentai. unrestrainedSpouseNum,
@@ -97,6 +101,7 @@ namespace Taiwuhentai
 				Taiwuhentai. rateOfPregnantTaiwu,
 				Taiwuhentai.rateOfPregnant,
 				Taiwuhentai.lesbianPregnantTaiwu,
+				Taiwuhentai.lesbianPregnantIO,
 				Taiwuhentai.noOverheardIllegalMakeLoveTaiwu,
 				Taiwuhentai.debugMode
 			}));
@@ -117,6 +122,8 @@ namespace Taiwuhentai
 		public static int rateOfPregnantTaiwu;
 		public static int rateOfPregnant;
 		public static bool lesbianPregnantTaiwu;
+		public static int lesbianPregnantIO;
+
 		public static bool noOverheardIllegalMakeLoveTaiwu;
 
 

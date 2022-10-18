@@ -25,7 +25,7 @@ namespace Taiwuhentai
 		public static bool Prefix(ref bool __result, TaiwuEvent_bad63f08115a45aa970cfa203dd85e2b __instance)
 		{
 
-			bool flag = !EventHelper.CheckMainStoryLineProgress(8);
+			bool flag = !EventHelper.CheckMainStoryLineProgress(6);
 
 			if (flag)
 			{
@@ -86,7 +86,7 @@ namespace Taiwuhentai
 			Debuglogger.Log("injected marry event option10");
 
 
-			bool flag = !EventHelper.CheckMainStoryLineProgress(8);
+			bool flag = !EventHelper.CheckMainStoryLineProgress(6);
 			if (flag)
 			{
 				__result = false;
