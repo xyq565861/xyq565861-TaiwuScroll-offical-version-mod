@@ -19,7 +19,7 @@ namespace Taiwuhentai
         {
 			int taiwuid = DomainManager.Taiwu.GetTaiwuCharId();
 			Debuglogger.Log(string.Format("taiwuid{0} character{1} target{2}", taiwuid, character.GetId(), target.GetId()));
-			if (character.GetGender()==  target.GetGender()&& (taiwuid == character.GetId() && Taiwuhentai.lesbianPregnantIO == 1 || taiwuid==target.GetId()&&Taiwuhentai.lesbianPregnantIO == 2))
+			if (Taiwuhentai.lesbianPregnantTaiwu&&character.GetGender()==  target.GetGender()&& (taiwuid == character.GetId() && Taiwuhentai.lesbianPregnantIO == 1 || taiwuid==target.GetId()&&Taiwuhentai.lesbianPregnantIO == 2))
 			{
 				Debuglogger.Log("true");
 				return true;
@@ -30,7 +30,7 @@ namespace Taiwuhentai
         }
 		public static bool AllowAddingHusbandOrWifeRelation(int charId, int relatedCharId)
 		{
-			bool flag = (DomainManager.Character.GetAliveSpouse(charId) >= 0 && !Taiwuhentai.unrestrainedSpouseNum) || DomainManager.Character.GetAliveSpouse(relatedCharId) >= 0;
+			bool flag = (DomainManager.Character.GetAliveSpouse(charId) >= 0 && !Taiwuhentai.unrestrainedSpouseNum) || (DomainManager.Character.GetAliveSpouse(relatedCharId) >= 0 && !Taiwuhentai.allowTaiwuNtr);
 			bool result;
 			if (flag)
 			{
@@ -86,6 +86,7 @@ namespace Taiwuhentai
 		public static bool CanStartHusbandOrWife(int charId, int relatedCharId, ushort relationType)
 		{
 			bool flag = !AllowAddingHusbandOrWifeRelation(charId, relatedCharId);
+			Debuglogger.Log("CanStartHusbandOrWife" + flag);
 			if (!flag)
 			{
 				Character selfChar = DomainManager.Character.GetElement_Objects(charId);
@@ -100,7 +101,7 @@ namespace Taiwuhentai
 		}
 		public static bool CanStartRelation_HusbandOrWife(int selfCharId, RelatedCharacter selfToTarget, sbyte selfBehaviorType, int targetCharId, RelatedCharacter targetToSelf, sbyte targetBehaviorType)
 		{
-			bool flag = (((selfToTarget.RelationType & 16384) == 0 || (targetToSelf.RelationType & 16384) == 0)) || (RelationType.ContainBloodExclusionRelations(selfToTarget.RelationType) && !Taiwuhentai.bloodTies) || (DomainManager.Character.GetAliveSpouse(selfCharId) >= 0 && !Taiwuhentai.unrestrainedSpouseNum) || DomainManager.Character.GetAliveSpouse(targetCharId) >= 0;
+			bool flag = (((selfToTarget.RelationType & 16384) == 0 || (targetToSelf.RelationType & 16384) == 0)) || (RelationType.ContainBloodExclusionRelations(selfToTarget.RelationType) && !Taiwuhentai.bloodTies) || (DomainManager.Character.GetAliveSpouse(selfCharId) >= 0 && !Taiwuhentai.unrestrainedSpouseNum) || (DomainManager.Character.GetAliveSpouse(targetCharId) >= 0 && !Taiwuhentai.allowTaiwuNtr);
 			bool result;
 			if (flag)
 			{

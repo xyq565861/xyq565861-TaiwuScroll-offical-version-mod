@@ -56,7 +56,7 @@ namespace MirrorNet
                 {
                     string str = Encoding.UTF8.GetString(Data).TrimEnd('\0');
 
-                    if (str.StartsWith('^') && str.EndsWith('^'))
+                    if (str.StartsWith("^") && str.EndsWith("^"))
                     {
                         str = str.Trim('^');
 

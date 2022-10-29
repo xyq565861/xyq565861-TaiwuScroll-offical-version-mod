@@ -1,8 +1,10 @@
 ﻿using HarmonyLib;
+using MirrorNet;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using TaiwuModdingLib.Core.Plugin;
 using UnityEngine;
@@ -19,8 +21,10 @@ namespace TaiwuhentaiFront
 			harmony = new Harmony("Taiwuhentai front");
 			harmony.PatchAll(typeof(UI_CharacterMenuInfo_Patch));
 			harmony.PatchAll(typeof(MouseTipCharacter_Patch));
+			harmony.PatchAll(typeof(UI_CharacterMenu_Patch));
 
-		
+
+
 
 		}
 
@@ -52,12 +56,13 @@ namespace TaiwuhentaiFront
 
 
 
-		
+		public static TaiwuFrontClient  taiwuFrontClient;
+
 		public static Harmony harmony;
 		public static string pipName= "Taiwu/Hentai/Mirrorpipe";
 		public static bool ageMirror;
 		public static int showAge;
 		public static bool debugMode;
-		
+
 	}
 }

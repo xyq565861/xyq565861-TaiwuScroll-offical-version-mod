@@ -170,7 +170,7 @@ namespace Taiwuhentai
 
 				//bool flag4 = __instance.GetGender() == target.GetGender() && ((DomainManager.Taiwu.GetTaiwuCharId() == targetCharId && Taiwuhentai.lesbianPregnantIO == 2) || (DomainManager.Taiwu.GetTaiwuCharId() == __instance.GetId() && Taiwuhentai.lesbianPregnantIO == 1));
 
-				if (flag2 || (flag3&&targetflagTaiwu && Taiwuhentai.lesbianPregnantIO == 2) || (flag3&&charflagTaiwu || Taiwuhentai.lesbianPregnantIO == 1))
+				if (flag2 || (Taiwuhentai.lesbianPregnantTaiwu&&flag3&&targetflagTaiwu && Taiwuhentai.lesbianPregnantIO == 2) || (Taiwuhentai.lesbianPregnantTaiwu && flag3 &&charflagTaiwu && Taiwuhentai.lesbianPregnantIO == 1))
 				{
 					father = __instance;
 					mother = target;
@@ -180,7 +180,7 @@ namespace Taiwuhentai
 					father = target;
 					mother = __instance;
 				}
-				Debuglogger.Log("CCCCCC");
+				
 				Type tChatacter = __instance.GetType();
 				BindingFlags bindFlag = BindingFlags.NonPublic | BindingFlags.Instance;
 				MethodInfo makeloveMethod = tChatacter.GetMethod("OfflineMakeLove", bindFlag);

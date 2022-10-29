@@ -23,11 +23,58 @@ namespace Taiwuhentai
     class CharacterDomain_Newbron_Patch
     {
         [HarmonyPatch("CreatePregnantState")]
-        static void Postfix(CharacterDomain __instance, DataContext context, Character mother, Character father, bool isRaped)
+        static bool Prefix(CharacterDomain __instance, DataContext context, Character mother, Character father, bool isRaped)
         {
-            Debuglogger.Log(string.Format("context{0}-mother{1}-father{2}-isRaped{3}", context, mother.GetId(), father.GetId(), isRaped)); ;
-            PregnantState pregnantState = new PregnantState();
-            Debuglogger.Log(" GetPregnantState(int )" + mother.GetId() + __instance.TryGetPregnantState(mother.GetId(), out pregnantState));
+           
+            int currDate = DomainManager.World.GetCurrDate();
+            int taiwuCharId = DomainManager.Taiwu.GetTaiwuCharId();
+            bool flag = taiwuCharId == mother.GetId() || taiwuCharId == father.GetId();
+            if (flag)
+            {
+                PregnantState state = new PregnantState(mother, father, isRaped);
+                state.IsHuman =( !context.Random.CheckPercentProb(DomainManager.Taiwu.GetCricketLuckPoint() / 100))&&!Taiwuhentai.preventCricketPregnant;
+                bool isHuman = state.IsHuman;
+                float pregnantTimerate = 1;
+                switch (Taiwuhentai.rateOfPregnantTaiwu)
+                {
+                    case 0:
+                        pregnantTimerate = 1;
+                        break;
+                    case 1:
+                        pregnantTimerate = 0.5f;
+                        break;
+                    case 2:
+                        pregnantTimerate = 0.25f;
+                        break;
+                    case 3:
+                        pregnantTimerate = 2f;
+                        break;
+                    case 4:
+                        pregnantTimerate = 4f;
+                        break;
+                    default:
+                        break;
+                }
+                if (isHuman)
+                {
+                    state.ExpectedBirthDate =(int)(( currDate + context.Random.Next(6, 10))* pregnantTimerate);
+                }
+                else
+                {
+                    state.ExpectedBirthDate = (int)((currDate + 42)* pregnantTimerate);
+                }
+                Type type = typeof(CharacterDomain);
+                BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance;
+                MethodInfo addPregnantStatesMethod = type.GetMethod("AddElement_PregnantStates", bindingFlags);
+                addPregnantStatesMethod.Invoke(__instance, new object[] { mother.GetId(), state, context });
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+
+
         }
 
 

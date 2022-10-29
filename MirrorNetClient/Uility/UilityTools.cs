@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 using System.Timers;
 namespace MirrorNet
 {
-     public class UilityTools
+    public class UilityTools
     {
         public static void ResetTimer(Timer timer)
         {
@@ -25,9 +25,9 @@ namespace MirrorNet
             byte[] array;
             using (MemoryStream ms = new MemoryStream())
             {
-                IFormatter formatter = new BinaryFormatter(); 
+                IFormatter formatter = new BinaryFormatter();
                 formatter.Serialize(ms, obj);
-                array= ms.GetBuffer();
+                array = ms.GetBuffer();
             }
             //using (MemoryStream memoryStream = new MemoryStream())
             //{
@@ -57,12 +57,11 @@ namespace MirrorNet
 
                 Assembly ass = Assembly.GetExecutingAssembly();
                 return ass.GetType(typeName);
-                //return typeof(TaiwuQueryImpl);
+
             }
 
         }
-        
-        public static int pluse(int a, int b)//for test
+        public static int pluse(int a, int b)
         {
             return (int)a + (int)b + TestEntity.b;
         }

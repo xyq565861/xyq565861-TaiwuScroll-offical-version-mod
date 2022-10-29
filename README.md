@@ -1,13 +1,21 @@
+0.0.9
+<br>
+Ìí¼ÓÁË·ÀÖ¹²»Õý³£»³ÔÐ¹¦ÄÜ
+Ìí¼ÓÁËÏÞÖÆºó´úÉÏÏÞ¹¦ÄÜ
+Ìí¼ÓÁËÇ¿Á¦ntrÓëÃÀÈËÖ»ÅäÌ«ÎáÓµÓÐ¹¦ÄÜ
 0.0.8
+<br>
 ÐÞ¸´ÁËÓÉÓÚ¸üÐÂÔì³ÉÍ¬ÐÔÎÞ·¨»³ÔÐµÄbug
-
+<br>
 0.0.7
+<br>
 °æ±¾¸üÐÂ£¬ÊÊÅäÓÎÏ·°æ±¾
-
+<br>
 0.0.6
 <br>
 
 Ôö¼ÓÁËÌ«ÎáÀÙË¿»³ÔÐÑ¡Ôñ
+<br>
 0.0.5
 <br>
 Ìí¼ÓÁËµ÷ÕûnpcÇó°®³É¹¦ÂÊ
@@ -17,16 +25,17 @@
 Ìí¼ÓÁËÌ«ÎáºÙßÝÁ¦½âËø
 Ìí¼ÓÁËÅäÅ¼ºÙßÝÁ¦½âËø
 ÃÀ»¯ÁËÉèÖÃ½çÃæ
+<br>
 0.0.4
 <br>
 ÐÞ¸´ÁË¿ªµµºì×ÖµÄbug
 ÐÞ¸´ÁË¸ö±ðÇé¿öÏÂÉèÖÃÎÄ¼þ¶ÁÈ¡´íÎóµÄÎÊÌâ
-
+<br>
 0.0.3
 <br>
 ÐÞ¸´ÁË´ø×ÅÐ¡º¢½á»éÊ±£¬ÓÉÓÚ¹ý¼Ì»úÖÆ£¬µ¼ÖÂÐ¡º¢¸¸Ä¸¹ý¶àµÄÎÊÌâ
 ÐÞ¸´ÁË¹²½áÁ¬ÀíÑ¡ÏîÔÚÃæ¶ÔÒÑ½á»é¶ÔÏóÒ²»áÏÔÊ¾µÄÎÊÌâ
-
+<br>
 0.0.2
 <br>
 Ôö¼ÓÁËÏÞÖÆºó´úÐÔ±ðÓëÇó°®ÊÂ¼þ±£µ×»úÂÊ
@@ -35,7 +44,7 @@
 ÏÈÐÐ²âÊÔ°æ
 ÓÉÓÚÎÒ³ö¹ÈµÄµµ»µÁË£¬ÔÝÊ±Ã»ÓÐ¾­¹ý³ä·ÖµÄ²âÊÔ£¬µ«¼òµ¥²âÊÔÏÂ¿ÉÒÔÓÃÇÒ¹ýÔÂÃ»ÎÊÌâ
 
-
+<br>
 
 ×¢Òâ£ºÓÉÓÚÔÝÊ±Ã»¿ª·ÅÊÂ¼þ±à¼­Æ÷£¬ÎÒÊÇÊ¹ÓÃµÄÆäËû·½·¨patchÁËÔ­°æÊÂ¼þ£¬
 ËùÒÔ
@@ -55,20 +64,5 @@ bug·´À¡ÓÊÏä£º<color=#0042a2>xyq565861@outlook.com </color>Çë×¢Ã÷Ì«Îá»æ¾ímod bug·
 <color=#ff0000>ºìÉ«µÄ¹¦ÄÜ£º</color>´Ë¹¦ÄÜÎªÔÝÎ´¾­¹ý×ã¹»²âÊÔµÄÐÂ¹¦ÄÜ£¬»ò¹¦ÄÜ±¾Éí´æÔÚ±È½Ï´óµÄ»µµµ·çÏÕ£¬µ«ÒòÐèÇóÈËÊý½Ï¶àËùÒÔ·Å³ö£¬ÇëÒÔÁË½âÕâÒ»Ìõ¼þµÄÇ°ÌáÏÂ×ÔÐÐÑ¡Ôñ¿ªÆô£¬Èô¿ªÆôÊ±³öÏÖbug£¬Çë×ÔÐÐ²âÊÔÎÈ¶¨¸´ÏÖÌõ¼þºó£¬Í¨¹ýÓÊÏä·´À¡¸ø×÷Õß²¢¸½ÉÏ´æµµÓë¸´ÏÖÌõ¼þËµÃ÷£¬×÷Õß»á¿ÉÄÜ»áÐÞ¸´
 <br>
 ¹¦ÄÜËµÃ÷£º
-<br><color=#ffffff>½â³ýÇó»éÅäÅ¼ÊýÏÞÖÆ</color> ½öÓ°ÏìÌ«Îá£¬½â³ýÅäÅ¼ÊýÁ¿ÏÞÖÆ,¿ÉÒÔÒ»·ò¶àÆÞºÍÒ»ÆÞ¶à·ò£¬(<color=#ff9900>×¢Òâ</color>£¬Õâ»á½ûÓÃÔ­°æÔÚ½á»éÊ±£¬Èô¶Ô·½ÓÐÐ¡º¢£¬½«¹ý¼ÌÐ¡º¢µÄÇ××Ó¹ØÏµµÄÉè¶¨£¬½öÐÞ¸ÄÁË¶Ô»°´¥·¢µÄÇó°®£¬°üÀ¨±»¶¯Çó°®£¬ÏàÇ×´ó»á£¬ÃÔÏãÕóµÈµÄÆæÓöÇó°®ÊÂ¼þÎ´ÐÞ¸Ä)
-<br><color=#ffffff>½â³ýÇó»éÃÅÅÉÏÞÖÆ</color> ½öÓ°ÏìÌ«Îá£¬ºöÊÓÇó»é¶ÔÏóµÄ²¿·ÖÉí·ÖºÍÃÅÅÉÏÞÖÆ(<color=#ff9900>×¢Òâ</color>£¬Õâ»á½ûÓÃÔ¶×ß¸ß·ÉÏµÁÐÊÂ¼þ¾ÍÊÇÉÙÁÖ½ð¸ÕÎå¶¾ÐþÅ®ÅÉµÄË½±¼ÊÂ¼þ£¬ÒòÎª»á½â³ýnpcµÄÉí·ÝµÈ¼¶ÏÞÖÆ£¬¶øÔ¶×ß¸ß·É»áÈÃnpcÍÑÀëÃÅÅÉ£¬ÓÐ¹¦ÄÜµÄnpcÍÑÀëÃÅÅÉºó¿ÉÄÜ»á·¢Éúbug£¬ÏëÌåÑé¾çÇéÇëµÚÒ»¸öÅäÅ¼½á»éÌåÑéÍêÔÙ¿ªÆô´Ë¹¦ÄÜ²¢<color=#ff9900>ÖØÆôÓÎÏ·</color>)
-<br><color=#ffffff>Ì«ÎáÇó°®ÄêÁäÏÂÏÞ</color> Ì«ÎáºÍÄ¿±ê¾ù¸ßÓÚ´ËÄêÁä±ã¿ÉÒÔÇó°®£¬ÓÎÏ·Ä¬ÈÏÖµÎª16Ëê
-<br><color=#ffffff>Ì«ÎáºÙßÝÁ¦½âËø</color> ½â³ýÄêÁä¶ÔÌ«ÎáÉúÓýÄÜÁ¦µÄÓ°Ïì£¬ÉúÓýÁ¦Ó°Ïì´ºÏüÒ»¿Ì»úÂÊÓë»³ÔÐÄÜÁ¦
-<br><color=#ffffff>ÅäÅ¼ºÙßÝÁ¦½âËø</color> ½â³ýÄêÁä¶ÔÌ«ÎáÅäÅ¼ÓëÇéÈËµÄÉúÓýÄÜÁ¦µÄÓ°Ïì£¬ÉúÓýÁ¦Ó°Ïì´ºÏüÒ»¿Ì»úÂÊÓë»³ÔÐÄÜÁ¦
-<br><color=#ffffff>¸ºÔðµÄÌ«Îá¸¸Ä¸</color> Ô­°æ»úÖÆÏÂ£¬·ÇÕý³£´ºÏüÒ»¿Ì»³ÔÐ,»òÐÂÉú¶ù¸¸Ä¸½öÎªÇéÂÂ£¬¶øË«·½ÓÐÆäËûÕýÊ½ÅäÅ¼Ê±£¬ÐÂÉú¶ù³öÉú²»»á±»¸³ÓèÇ××Ó¹ØÏµ£¬´ò¿ªÕâ¸öÑ¡Ïî½«ÈÃ¸¸Ä¸Ö®Ò»ÎªÌ«ÎáµÄÓ¤¶ù£¬ÎÞÊÓË«·½ÊÇ·ñÓÐÆäËûÅäÅ¼£¬¶¼»áÌí¼ÓÇ××Ó¹ØÏµ£¬½ö¿ªÆôÊ±µÄÓ¤¶ù³öÉúÊÂ¼þÓÐÐ§
-<br><color=#a2a200>½â³ýÆäËûÇó°®ÏÞÖÆ</color> Ê¹Ì«Îá¿ÉÒÔÏòÊ¦¸µ£¬½á°ÝÐÖµÜ£¬µÈÆäËû²¿·ÖÑªÔµ¹ØÏµÕßÖ÷¶¯Çó°®
-<br><color=#a2a200>ÏÞ¶¨Ì«Îáºó´úÐÔ±ð</color> Èç×ÖÃæÒâË¼£¬Ö»ÉúÄÐ»òÕßÖ»ÉúÅ®£¬½öÓ°Ïì¸¸Ä¸Ö®Ò»ÎªÌ«ÎáµÄº¢×Ó
-<br><color=#ffffff>Ì«ÎáÇó°®±£µ×³É¹¦ÂÊ</color> ½öÓ°ÏìÌ«Îá·¢ÆðµÄ¶Ô»°´¥·¢µÄÇãËß°®Òâ³É¹¦ÂÊ±£µ×£¬ºöÊÓÐÔ±ð£¬ÄêÁäµÈÒòËØ£¬ÈÃÌ«ÎáÔÚÂú×ãºÃ¸Ð¶ÈÇ°ÌáÏÂ¶ÔÈÎºÎÈË¸æ°×¶¼ÓÐ±£µ×¸ÅÂÊ¿ÉÒÔ³É¹¦£¬Ô­°æ»úÖÆÓëÅäÅ¼ÊýÁ¿£¬ÏàÃ²£¬ÄêÁä²î£¬÷ÈÁ¦£¬ÐÔ±ðÈ¡Ïò¾ùÓÐ¹ØÏµ£¬´Ë´¦Îª±£µ×ÂÊ£¬³É¹¦ÂÊ½«»á²»µÍÓÚ´ËÖµ¡£0´ú±íÎÞ±£µ×³É¹¦ÂÊ£¬3´ú±í±£µ×³É¹¦ÂÊ30%£¬8´ú±í±£µ×³É¹¦ÂÊ80%£¬ÒÔ´ËÀàÍÆ
-<br><color=#ff0000>npcÇó°®³É¹¦ÂÊ</color> È«¾ÖÓ°ÏìËùÓÐnpcÇó°®³É¹¦ÂÊ£¬ÐÞ¸Ä´ËÖµ¿ÉÄÜ»áÔì³ÉÓÎÏ·ÊÀ½çÈË¿Ú²»Õý³£²¨¶¯
-<br><color=#a2a200>·ÅÖ¹Ì«Îá±»ÂÌ</color> ´ó·ù½µµÍÌ«ÎáÅäÅ¼ÓëÇéÈËµÄÐÂ»¶µÄ¸ÅÂÊ£¨ÎÞ·¨½µµ½0£©
-<br><color=#a2a200>Ì«Îá»³ÔÐ»úÂÊ</color> ½öÓ°ÏìÌ«Îá²ÎÓëµÄ´ºÏüÒ»¿ÌÊÂ¼þ£¬ÆäÖÐ<color=#0042a2>¾ø¶Ô±ÜÔÐ</color>ÎªÍêÈ«±ÜÔÐ¡£<color=#0042a2>»úÂÊ¼õ°ë</color>Óë<color=#0042a2>»úÂÊ¼õ°ë</color>½öÓ°Ïì°üº¬ÁÙÊ±Ëæ»úÊý£¬ÉúÓýÁ¦£¬ÊÀ½çÈË¿Úµ÷ÕûÊýÔÚÄÚµÄµ÷ÕûÖµ£¬²»Ó°ÏìÅ®ÐÔÉúÓýÀäÈ´ÆÚ£¬<color=#0042a2>¾ø¶Ô»³ÔÐ</color>¿ÉÍ»ÆÆÊÀ½çÈË¿Úµ÷ÕûÖµ£¬µ«ÈÔÊÜÅ®ÐÔÉúÓýÀäÈ´ÆÚÏÞÖÆ
-<br><color=#ff0000>npc»³ÔÐ»úÂÊ</color> È«¾ÖÓ°ÏìËùÓÐnpc»³ÔÐ»úÂÊ,½öÓ°Ïì°üº¬ÁÙÊ±Ëæ»úÊý£¬ÉúÓýÁ¦£¬ÊÀ½çÈË¿Úµ÷ÕûÊýÔÚÄÚµÄµ÷ÕûÖµ£¬µ«ÈÔÊÜÅ®ÐÔÉúÓýÀäÈ´ÆÚÓ°Ïì
-<br><color=#ff0000>Ì«ÎáÀÙË¿±ß»³ÔÐ</color> ½öÓ°ÏìÌ«Îá²ÎÓëµÄ´ºÏüÒ»¿ÌÊÂ¼þ£¬½â³ý»³ÔÐÊÂ¼þË«·½ÐÔ±ðÏÞÖÆ
-<br><color=#ff0000>debugMode</color> ²»Òª¿ªÆô£¬½öµ÷ÊÔÊ¹ÓÃ£¬»áÔÚÄãµÄÓÎÏ·ÎÄ¼þ¼ÐÉú³ÉÒ»¶Ñ¶ÔÄãÃ»ÓÃµÄÈÕÖ¾
-<br>
+
 Ê¹ÓÃ·½·¨½âÑ¹µ½ÓÎÏ·Ä¿Â¼ÏÂµÄmodÈ»ºóÔÚÄ£×é¹ÜÀíÆ÷ÖÐ¹´Ñ¡ÏàÓ¦ÄÚÈÝ£¬debug²»ÒªÑ¡£¬»áÔÚÄãµÄÓÎÏ·ÎÄ¼þ¼ÐÉú³ÉÒ»¶Ñ¶ÔÄãÃ»ÓÃµÄÈÕÖ¾

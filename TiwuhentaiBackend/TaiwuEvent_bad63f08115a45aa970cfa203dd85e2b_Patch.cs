@@ -111,8 +111,8 @@ namespace Taiwuhentai
 					Debuglogger.Log("RoleHasAliveSpouse " + EventArgBox.TaiwuCharacterId +"_"+EventHelper.RoleHasAliveSpouse(EventArgBox.TaiwuCharacterId));
 					Debuglogger.Log("RoleHasAliveSpouse " + charId + "_"+EventHelper.RoleHasAliveSpouse(charId));
 					bool flag3 = EventHelper.RoleHasAliveSpouse(EventArgBox.TaiwuCharacterId) && !Taiwuhentai.unrestrainedSpouseNum;
-					bool flag4 = (flag3 || EventHelper.RoleHasAliveSpouse(charId));
-					if (flag4)
+					bool flag4 =  EventHelper.RoleHasAliveSpouse(charId) && !Taiwuhentai.allowTaiwuNtr;
+					if (flag4|| flag3)
 					{
 						Debuglogger.Log("injected marry event option10 flag3,4);" + flag3+flag4);
 

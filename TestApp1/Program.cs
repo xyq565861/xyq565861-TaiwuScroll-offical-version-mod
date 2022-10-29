@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using MirrorNet;
-using Newtonsoft.Json;
+
 
 namespace TestApp1
 {
     class Program
     {
-        
+
         static void Main(string[] args)
         {
             string strBuffer;
@@ -36,42 +37,57 @@ namespace TestApp1
 
 
             }
-            else if (strBuffer.Contains("B") || strBuffer.Contains("b"))
+            //else if (strBuffer.Contains("B") || strBuffer.Contains("b"))
+            //{
+            //    TaiwuFrontClient taiwuFrontClient = new TaiwuFrontClient("Taiwu/Hentai/Mirrorpipe");
+            //    taiwuFrontClient.Start();
+            //    //MirrorClient mirrorClient = new MirrorClient("Taiwu/Hentai/Mirrorpipe");
+            //    //mirrorClient.ServerMessageReceivedEvent += MessageReceived;
+            //    //mirrorClient.ServerClientConnectedEvent += ClientConnectedEvent;
+            //    //mirrorClient.ServerClientDisconnectedEvent += ClientDisconnectedEvent;
+            //    //mirrorClient.Start();
+            //    while (true)
+            //    {
+
+            //        strBuffer = Console.ReadLine();
+            //        try
+            //        {
+            //            //TaiwuQuery tm = new TaiwuQuery();
+            //            //tm.Initialize("MirrorNet", "MirrorNet", "UilityTools", "pluse", new List<object> { 7, 5 });
+            //            //QueryMsg qm = new QueryMsg();
+
+            //            object obj = taiwuFrontClient.Query("MirrorNet", "MirrorNet", "UilityTools", "pluse", new List<object> { 7, 5 });
+            //           // qm.Initialize(tm.ProtocolDataUnit(), tm.id);
+            //           // int i = (int)QueryCall(qm);
+            //            Console.WriteLine(obj);
+            //        }
+            //        catch (Exception ex)
+            //        {
+            //            Console.WriteLine(ex.Message);
+            //            Console.WriteLine(ex.StackTrace);
+            //        }
+
+
+            //    }
+            //}
+            else if (strBuffer.Contains("C") || strBuffer.Contains("c"))
             {
-                TaiwuFrontClient taiwuFrontClient = new TaiwuFrontClient("Taiwu/Hentai/Mirrorpipe");
-                taiwuFrontClient.Start();
-                //MirrorClient mirrorClient = new MirrorClient("Taiwu/Hentai/Mirrorpipe");
-                //mirrorClient.ServerMessageReceivedEvent += MessageReceived;
-                //mirrorClient.ServerClientConnectedEvent += ClientConnectedEvent;
-                //mirrorClient.ServerClientDisconnectedEvent += ClientDisconnectedEvent;
-                //mirrorClient.Start();
                 while (true)
                 {
-
                     strBuffer = Console.ReadLine();
-                    try
-                    {
-                        //TaiwuQuery tm = new TaiwuQuery();
-                        //tm.Initialize("MirrorNet", "MirrorNet", "UilityTools", "pluse", new List<object> { 7, 5 });
-                        //QueryMsg qm = new QueryMsg();
+                    string str1 = Guid.NewGuid().ToString();
+                    long num2 = DateTime.Now.Ticks;
 
-                        object obj=taiwuFrontClient.Query("MirrorNet", "MirrorNet", "UilityTools", "pluse", new List<object> { 7, 5 });
-                        //qm.Initialize(tm.ProtocolDataUnit, tm.id);
-                        //int i = (int)QueryCall(qm);
-                        Console.WriteLine(obj);
-                    }
-                    catch(Exception ex)
-                    {
-                        Console.WriteLine(ex.Message);
-                        Console.WriteLine(ex.StackTrace);
-                    }
+                    List<byte> vs = new List<byte>();
+                    byte[] a = BitConverter.GetBytes(num2);
+                    byte[] h = Encoding.UTF8.GetBytes(str1);
+                    byte[] e = Encoding.UTF8.GetBytes(str1+'\0');
+                    Console.WriteLine(string.Format("{0}-{1}-{2}", str1.Length, h.Length, Encoding.UTF8.GetString(h)));
+                    Console.WriteLine(string.Format("{0}-{1}-{2}", num2, a.Length, BitConverter.ToUInt64(a)));
 
 
                 }
-            }
-            else
-            {
-                ;//exit
+
             }
         }
 
@@ -88,7 +104,7 @@ namespace TestApp1
         //    //LinkedList<object> ts = new LinkedList<object>();
         //    object[] parameters = taiwuQuery.Args.ToArray();
 
-            
+
         //    object returnValue = method.Invoke(obj, flag, Type.DefaultBinder, parameters, null);
         //    return returnValue;
         //}
@@ -103,14 +119,14 @@ namespace TestApp1
                 {
                     msg.TryFormate(e.Data);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     Console.WriteLine(ex.Message);
 
                 }
                 Console.WriteLine(msg.Massage);
 
-                
+
             }
         }
         static private void ServerMessageReceived(object sender, MessageReceivedEventArgs e)
@@ -131,7 +147,7 @@ namespace TestApp1
         {
             if (e != null)
             {
-                Console.WriteLine("ClientDisconnected"+e.ClientId);
+                Console.WriteLine("ClientDisconnected" + e.ClientId);
             }
         }
         static private void ClientConnectedEvent(object sender, ClientConnectedEventArgs e)

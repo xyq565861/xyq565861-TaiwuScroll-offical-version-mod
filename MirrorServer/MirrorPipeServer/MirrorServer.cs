@@ -157,9 +157,9 @@ namespace MirrorNet
             var pipe = new MirrorServerPipe(_pipeName, _maxNumberOfServerInstances);
             _pipes[pipe.Id] = pipe;
 
-            pipe.ClientConnectedEvent += ClientConnectedHandler;
-            pipe.ClientDisconnectedEvent += ClientDisconnectedHandler;
-            pipe.MessageReceivedEvent += MessageReceivedHandler;
+            pipe.ClientConnectedEvent += ClientConnected;
+            pipe.ClientDisconnectedEvent += ClientDisconnected;
+            pipe.MessageReceivedEvent += MessageReceived;
 
             pipe.Start();
         }
@@ -175,9 +175,9 @@ namespace MirrorNet
 
         private void UnregisterFromServerEvents(MirrorServerPipe pipe)
         {
-            pipe.ClientConnectedEvent -= ClientConnectedHandler;
-            pipe.ClientDisconnectedEvent -= ClientDisconnectedHandler;
-            pipe.MessageReceivedEvent -= MessageReceivedHandler;
+            pipe.ClientConnectedEvent -= ClientConnected;
+            pipe.ClientDisconnectedEvent -= ClientDisconnected;
+            pipe.MessageReceivedEvent -= MessageReceived;
         }
 
         private void OnMessageReceived(MessageReceivedEventArgs eventArgs)
@@ -201,7 +201,7 @@ namespace MirrorNet
         }
 
 
-        private void ClientConnectedHandler(object sender, ClientConnectedEventArgs eventArgs)
+        private void ClientConnected(object sender, ClientConnectedEventArgs eventArgs)
         {
             OnClientConnected(eventArgs);
 
@@ -209,7 +209,7 @@ namespace MirrorNet
         }
 
 
-        private void ClientDisconnectedHandler(object sender, ClientDisconnectedEventArgs eventArgs)
+        private void ClientDisconnected(object sender, ClientDisconnectedEventArgs eventArgs)
         {
             OnClientDisconnected(eventArgs);
 
@@ -217,7 +217,7 @@ namespace MirrorNet
         }
 
 
-        private void MessageReceivedHandler(object sender, MessageReceivedEventArgs eventArgs)
+        private void MessageReceived(object sender, MessageReceivedEventArgs eventArgs)
         {
             OnMessageReceived(eventArgs);
         }

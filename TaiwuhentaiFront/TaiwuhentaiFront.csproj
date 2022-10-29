@@ -40,9 +40,6 @@
     <Reference Include="Assembly-CSharp">
       <HintPath>E:\STEAM\steamapps\common\The Scroll Of Taiwu\The Scroll of Taiwu_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
-    <Reference Include="MirrorNet">
-      <HintPath>..\MirrorServer\bin\Release\net5.0\MirrorNet.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -75,11 +72,19 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Awake_Patch.cs" />
     <Compile Include="MouseTipCharacter_Patch.cs" />
+    <Compile Include="UilityTools.cs" />
     <Compile Include="UI_CharacterMenuInfo_Patch.cs" />
     <Compile Include="Debuglogger.cs" />
     <Compile Include="TaiwuhentaiFront.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MirrorNetClient\MirrorNetClient.csproj">
+      <Project>{97bcc2f1-1bb3-4b8a-b53b-a9f6a65d5fd1}</Project>
+      <Name>MirrorNetClient</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

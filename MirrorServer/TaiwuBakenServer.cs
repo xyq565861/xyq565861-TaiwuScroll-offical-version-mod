@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -68,8 +68,7 @@ namespace MirrorNet
                                         object result=QueryCall(queryMsg);
 
                                         RetMsg retMsg = new RetMsg();
-                                        string str = JsonConvert.SerializeObject(result);
-                                        retMsg.Initialize(str, queryMsg.CallId);
+                                        retMsg.Initialize(result, queryMsg.CallId);
                                         Server.Send(retMsg.ProtocolDataUnit, e.ClientId);
                                     }
                                     else
@@ -114,12 +113,42 @@ namespace MirrorNet
 
         private static object QueryCall(QueryMsg queryMsg)
         {
+
             TaiwuQuery taiwuQuery = new TaiwuQuery(queryMsg.CallId);
-            taiwuQuery.TryFormate(queryMsg.Massage);
-            System.Reflection.Assembly m_Assembly = System.Reflection.Assembly.Load(taiwuQuery.Assemblystr);
+            //taiwuQuery.TryFormate(queryMsg.Massage);
+            taiwuQuery.TryFormate(queryMsg.Data);
+            Debuglogger.Log(string.Format("m_Assembly{0}--NamespaceStr{1}--ClassStr{2}--MethodStr{3}--parameters{4}", taiwuQuery.Assemblystr, taiwuQuery.NamespaceStr, taiwuQuery.ClassStr, taiwuQuery.MethodStr, taiwuQuery.Args.ToString()));
+            Assembly m_Assembly=null;
+
+
+            if (taiwuQuery.Assemblystr.Equals("GameData"))
+            {
+                m_Assembly = Assembly.Load(taiwuQuery.Assemblystr);
+            }
+            else
+            {
+                foreach (var item in AppDomain.CurrentDomain.GetAssemblies())
+                {
+                    
+                    if (item.GetName().Name.Equals(taiwuQuery.Assemblystr))
+                    {
+                        m_Assembly = item;
+                    }
+
+                }
+            }
+
+            Assembly a_Assembly = Assembly.GetExecutingAssembly();
+            Debuglogger.Log(a_Assembly.GetName());
+            if (m_Assembly == null)
+                throw new Exception("Backend can't find the target Assembly");
             Type t = m_Assembly.GetType(taiwuQuery.NamespaceStr + "." + taiwuQuery.ClassStr);
+            if (t == null)
+                throw new Exception("Backend can't find the target class");
             System.Object obj = Activator.CreateInstance(t);
             MethodInfo method = t.GetMethod(taiwuQuery.MethodStr);
+            if (method == null)
+                throw new Exception("Backend can't find the target method");
             BindingFlags flag = BindingFlags.Static | BindingFlags.IgnoreCase;
             //ParameterInfo[] paramInfos = method.GetParameters();
             //LinkedList<object> ts = new LinkedList<object>();

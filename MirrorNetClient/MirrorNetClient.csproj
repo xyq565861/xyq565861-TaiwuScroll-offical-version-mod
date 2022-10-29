@@ -39,10 +39,31 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine">
+      <HintPath>E:\STEAM\steamapps\common\The Scroll Of Taiwu\The Scroll of Taiwu_Data\Managed\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>E:\STEAM\steamapps\common\The Scroll Of Taiwu\The Scroll of Taiwu_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="MirrorPipeClient\MirrorClient.cs" />
+    <Compile Include="MirrorPipeClient\MirrorClientPipe.cs" />
+    <Compile Include="MirrorPipeClient\Msg\AsyncQueryMsg.cs" />
+    <Compile Include="MirrorPipeClient\Msg\AsyncRetMsg.cs" />
+    <Compile Include="MirrorPipeClient\Msg\ErrorMsg.cs" />
+    <Compile Include="MirrorPipeClient\Msg\MirrorMsg.cs" />
+    <Compile Include="MirrorPipeClient\Msg\MirrorMsgImpl.cs" />
+    <Compile Include="MirrorPipeClient\Msg\QueryMsg.cs" />
+    <Compile Include="MirrorPipeClient\Msg\RetMsg.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaiwuFrontClient.cs" />
+    <Compile Include="TaiwuQuery.cs" />
+    <Compile Include="TaiwuQueryImpl.cs" />
+    <Compile Include="Uility\Debuglogger.cs" />
+    <Compile Include="Uility\TestEntity.cs" />
+    <Compile Include="Uility\UilityEntitiy.cs" />
+    <Compile Include="Uility\UilityTools.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

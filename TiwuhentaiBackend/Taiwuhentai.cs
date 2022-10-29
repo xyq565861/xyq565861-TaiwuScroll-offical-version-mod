@@ -9,7 +9,7 @@ using TaiwuModdingLib.Core.Plugin;
 
 namespace Taiwuhentai
 {
-	[PluginConfig("Taiwuhentai_Backend", "FD.FLY", "0.0.6")]
+	[PluginConfig("Taiwuhentai_Backend", "FD.FLY", "0.0.8")]
 	public class Taiwuhentai : TaiwuRemakeHarmonyPlugin
 	{
 		public override void Initialize()
@@ -24,6 +24,8 @@ namespace Taiwuhentai
 			this.HarmonyInstance.PatchAll(typeof(Character_Patch_PeriAdvanceMonth));
 			this.HarmonyInstance.PatchAll(typeof(Character_Patch_ComplementPeriAdvanceMonth));
 			this.HarmonyInstance.PatchAll(typeof(PregnantState_Patch));
+			this.HarmonyInstance.PatchAll(typeof(EventHelper_BoyOrGirlFriend));
+			this.HarmonyInstance.PatchAll(typeof(EventHelper_HusbandOrWifePatch));
 			//this.HarmonyInstance.PatchAll(typeof(Test));
 
 			Debuglogger.Log("injected back plugin dll");
@@ -59,7 +61,16 @@ namespace Taiwuhentai
 			DomainManager.Mod.GetSetting(base.ModIdStr, "rateOfPregnantTaiwu", ref Taiwuhentai.rateOfPregnantTaiwu);
 			DomainManager.Mod.GetSetting(base.ModIdStr, "rateOfPregnant", ref Taiwuhentai.rateOfPregnant);
 			DomainManager.Mod.GetSetting(base.ModIdStr, "lesbianPregnantTaiwu", ref Taiwuhentai.lesbianPregnantTaiwu);
+
+
 			DomainManager.Mod.GetSetting(base.ModIdStr, "lesbianPregnantIO", ref Taiwuhentai.lesbianPregnantIO);
+
+			DomainManager.Mod.GetSetting(base.ModIdStr, "preventCricketPregnant", ref Taiwuhentai.preventCricketPregnant);
+			DomainManager.Mod.GetSetting(base.ModIdStr, "taiwuChildCap", ref Taiwuhentai.taiwuChildCap);
+			DomainManager.Mod.GetSetting(base.ModIdStr, "taiwuSpouseChildCap", ref Taiwuhentai.taiwuSpouseChildCap);
+			DomainManager.Mod.GetSetting(base.ModIdStr, "rateTaiwuPregnantTime", ref Taiwuhentai.rateTaiwuPregnantTime);
+			DomainManager.Mod.GetSetting(base.ModIdStr, "allowTaiwuNtr", ref Taiwuhentai.allowTaiwuNtr);
+			DomainManager.Mod.GetSetting(base.ModIdStr, "expelOtherAdored", ref Taiwuhentai.expelOtherAdored);
 
 			DomainManager.Mod.GetSetting(base.ModIdStr, "noOverheardIllegalMakeLoveTaiwu", ref Taiwuhentai.noOverheardIllegalMakeLoveTaiwu);
 
@@ -102,7 +113,9 @@ namespace Taiwuhentai
 				Taiwuhentai.rateOfPregnant,
 				Taiwuhentai.lesbianPregnantTaiwu,
 				Taiwuhentai.lesbianPregnantIO,
+
 				Taiwuhentai.noOverheardIllegalMakeLoveTaiwu,
+
 				Taiwuhentai.debugMode
 			}));
 		}
@@ -110,27 +123,34 @@ namespace Taiwuhentai
 		public static bool unrestrainedSpouseNum;
 		public static bool unrestrainedSpouseFactions;
 		public static int spouseAge;
-		public static bool fertilityIgnoreAgeTaiwu;
-		public static bool fertilityIgnoreAgeTaiwuSpouse;
+		public static bool fertilityIgnoreAgeTaiwu = false;
+		public static bool fertilityIgnoreAgeTaiwuSpouse = false;
 		public static bool responsibleParent;
-		public static bool bloodTies;
-		public static int childGender;
+		public static bool bloodTies=false;
+		public static int childGender=2;
 		public static int rateOfConfessionTaiwu;
-		public static int rateOfConfession;
+		public static int rateOfConfession=1;
 		public static bool preventTaiwuSpouseStray;
 		public static bool preventTaiwuSpouseIllegalLove;
-		public static int rateOfPregnantTaiwu;
-		public static int rateOfPregnant;
-		public static bool lesbianPregnantTaiwu;
-		public static int lesbianPregnantIO;
+		public static int rateOfPregnantTaiwu = 2;
+		public static int rateOfPregnant=1;
+		public static bool lesbianPregnantTaiwu = false;
+		public static int lesbianPregnantIO=0;
 
-		public static bool noOverheardIllegalMakeLoveTaiwu;
+		public static bool preventCricketPregnant=false;
+		public static int taiwuChildCap = -1;
+		public static int taiwuSpouseChildCap = -1;
+		public static int rateTaiwuPregnantTime=0;
+		public static bool allowTaiwuNtr = false;
+		public static bool expelOtherAdored = false;
+
+		public static bool noOverheardIllegalMakeLoveTaiwu=false;
 
 
 
 
 
-		public static bool debugMode;
+		public static bool debugMode= false;
 
 	}
 }

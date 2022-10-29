@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json">
-      <HintPath>E:\STEAM\steamapps\common\The Scroll Of Taiwu\The Scroll of Taiwu_Data\Managed\Newtonsoft.Json.dll</HintPath>
-    </Reference>
+    <Compile Remove="MirrorPipeServer\MirrorClient.cs" />
+    <Compile Remove="MirrorPipeServer\MirrorClientPipe.cs" />
+    <Compile Remove="TaiwuFrontClient.cs" />
   </ItemGroup>
 
 </Project>

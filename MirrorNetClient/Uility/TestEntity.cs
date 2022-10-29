@@ -4,9 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MirrorNetClient
+namespace MirrorNet
 {
-    public class Class1
+    public static class TestEntity
     {
+
+        public static int b = 2;
     }
 }

@@ -8,10 +8,10 @@ using GameData.Domains.Character.Display;
 using GameData.Serializer;
 using GameData.Utilities;
 using HarmonyLib;
-using MirrorNet;
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading;
 using TMPro;
 using UICommon.Character.Avatar;
 using UnityEngine.Assertions;
@@ -125,6 +125,7 @@ namespace TaiwuhentaiFront
 			}, new Action<int, RawDataPool>(HentaiOnGetGroupCharDisplayData));
 			EasyPool.Free(list);
 
+
 		}
 		private static void SetRefersValues(MouseTipCharacter __instance, string refersName, string valueText,  string icon = null)
 		{
@@ -138,37 +139,27 @@ namespace TaiwuhentaiFront
 		}
 		private static void HentaiOnGetGroupCharDisplayData(int offset, RawDataPool dataPool)
 		{
-			Assembly assem = Assembly.GetExecutingAssembly();
-			Debuglogger.Log($"程序集全名:{assem.FullName}");
-			Debuglogger.Log($"程序集的版本：{assem.GetName().Version}");
-			Debuglogger.Log($"程序集位置：{assem.Location}");
-			Debuglogger.Log($"程序集入口：{assem.EntryPoint}");
-			Debuglogger.Log($"获取用于加载程序集的主机上下文：{assem.HostContext}");
-			Debuglogger.Log($"CLR 版本的文件夹名：{assem.ImageRuntimeVersion}");
-			Debuglogger.Log($"当前程序集是否在当前进程中动态生成的：{assem.IsDynamic}");
-			Debuglogger.Log($"当前程序集是否以完全信任方式加载：{assem.IsFullyTrusted}");
-			Debuglogger.Log($"当前程序集清单的模块：{assem.ManifestModule}");
-			Debuglogger.Log($"获取包含此程序集中模块的集合：{assem.Modules}");
-			Debuglogger.Log($"程序集被加载到只反射上下文而不是执行上下文中：{assem.ReflectionOnly}");
-			Debuglogger.Log($"CLR 对此程序集强制执行的安全规则集:{assem.SecurityRuleSet}");
-			Debuglogger.Log("taiwuFrontClient init");
-			TaiwuFrontClient taiwuFrontClient = new TaiwuFrontClient(TaiwuhentaiFront.pipName);
-			Debuglogger.Log("taiwuFrontClient starting");
-			taiwuFrontClient.Start();
-			Debuglogger.Log("taiwuFrontClient start");
-
-			bool flagBex = false;
-			try
+			ThreadStart threadStart = new ThreadStart(() =>
 			{
-				object obj = taiwuFrontClient.Query("TaiwuhentaiFrontBackComponent", "TaiwuhentaiFrontBackComponent", "UilityTools", "getGetBisexual", new List<object> { tipCharId });
-				flagBex = (bool)obj;
+				try
+				{
+					bool flagBex = UilityTools.getGetBisexual(tipCharId);
+					int charm = UilityTools.getGetBaseCharm(tipCharId);
+					Debuglogger.Log(string.Format("CharId:{0}-Bisexual:{1}-Charm:{2}", tipCharId, (flagBex ? "双性" : "单性"),charm));
+					//SetRefersValues(tipInstance, "CharacterHappiness", flagBex ? "双性" : "单性");
+				}
+				catch (Exception ex)
+				{
+					SetRefersValues(tipInstance, "CharacterHappiness", "未查到");
+					Debuglogger.Log(ex.Message);
+					Debuglogger.Log(ex.StackTrace);
+
+				}
+			});
+			Thread thread = new Thread(threadStart);
+			thread.Start();
 
 
-			}
-			catch (Exception ex)
-			{
-				Debuglogger.Log(ex.Message + "\n" + ex.StackTrace);
-			}
 			List<GroupCharDisplayData> list = null;
 			Serializer.Deserialize(dataPool, offset, ref list);
 			GroupCharDisplayData groupCharDisplayData = list[0];
@@ -177,7 +168,7 @@ namespace TaiwuhentaiFront
 			bool isFixedCharacter = CreatingType.IsFixedPresetType(item.CreatingType);
 			SetRefersValues(tipInstance,"CharacterCharm", groupCharDisplayData.Charm.ToString());
 			
-			SetRefersValues(tipInstance, "CharacterHappiness", flagBex?"双性":"单性");
+			
 			SetRefersValues(tipInstance, "CharacterFavorability", CommonUtils.GetFavorString(groupCharDisplayData.FavorabilityToTaiwu), CommonUtils.GetFavorIcon(groupCharDisplayData.FavorabilityToTaiwu));
 			sbyte fameType = FameType.GetFameType(groupCharDisplayData.Fame);
 			SetRefersValues(tipInstance, "CharacterFame", CommonUtils.GetFameString(fameType), CommonUtils.GetFameIcon(fameType));

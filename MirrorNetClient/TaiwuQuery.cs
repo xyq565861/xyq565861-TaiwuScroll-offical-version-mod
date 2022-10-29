@@ -75,12 +75,12 @@ namespace MirrorNet
         }
         public void TryFormate(string dataStr)
         {
-            if (!dataStr.StartsWith('!') || !dataStr.EndsWith('!'))
+            if (!dataStr.StartsWith("!") || !dataStr.EndsWith("!"))
             {
                 throw new FormatException(String.Format("DataStr formate error :{0}", dataStr));
             }
             string str = dataStr.Trim('!');
-            string[] strs = str.Split("_+_");
+            string[] strs = str.Split(new String[] { "_+_" }, StringSplitOptions.None);
             if (strs.Length < 6)
             {
                 throw new FormatException(String.Format("DataStr deserialize error :{0}", dataStr));

@@ -15,6 +15,7 @@ namespace MirrorNet
     class MirrorServerPipe
     {
         System.Timers.Timer updataTimer;
+        System.Timers.Timer shakeTimer;
         private readonly NamedPipeServerStream _pipeServer;
         private bool _isStopping;
         private readonly object _lockingObject = new object();
@@ -102,7 +103,12 @@ namespace MirrorNet
             {
                 lock (_lockingObject)
                 {
-                    _pipeServer.BeginWrite(buffer, 0, buffer.Length, asyncResult =>
+
+                    List<byte> vs = new List<byte>();
+                    vs.AddRange(buffer);
+                    vs.Add((byte)'\0');
+                    byte[] tbuffer = vs.ToArray();
+                    _pipeServer.BeginWrite(tbuffer, 0, tbuffer.Length, asyncResult =>
                     {
                         try
                         {
@@ -151,7 +157,10 @@ namespace MirrorNet
 
                         _pipeServer.EndWaitForConnection(result);
                         state = PipeState.connected;
-                        Shakehands();
+                        shakeTimer = new System.Timers.Timer(1000 *4);
+                        shakeTimer.AutoReset = true;
+                        shakeTimer.Elapsed += ShakeTimer_Elapsed;
+                        shakeTimer.Start();
                         OnConnected();
                         updataTimer = new System.Timers.Timer(60 * 1000 * 5);
                         updataTimer.AutoReset = true;
@@ -164,12 +173,18 @@ namespace MirrorNet
         }
         private void Shakehands()
         {
+            
             lock (_lockingObject)
             {
                 if (_pipeServer.IsConnected)
                 {
+                    Debuglogger.Log("Shakehands" + Id);
                     var taskCompletionSource = new TaskCompletionSource<TaskResult>();
                     var buffer = Encoding.UTF8.GetBytes(Id + "^*#^connect");
+                    List<byte> vs = new List<byte>();
+                    vs.AddRange(buffer);
+                    vs.Add((byte)'\0');
+                    buffer = vs.ToArray();
                     _pipeServer.BeginWrite(buffer, 0, buffer.Length, asyncResult =>
                     {
                         try
@@ -195,7 +210,7 @@ namespace MirrorNet
 
                 info.StringBuilder.Append(Encoding.UTF8.GetString(info.Buffer, 0, readBytes));
                 info.BufferBuilder.AddRange(info.Buffer);
-                if (!_pipeServer.IsMessageComplete)
+                if (!_pipeServer.IsMessageComplete ||   !info.StringBuilder.ToString().EndsWith("\0"))
                 {
                     BeginRead(info);
                 }
@@ -216,7 +231,12 @@ namespace MirrorNet
                                         UilityTools.ResetTimer(updataTimer);
 
                                     }
+                                    if (shakeTimer!=null)
+                                    {
+                                        shakeTimer.Close();
+                                    }
                                     state =PipeState.validated;
+                                    Debuglogger.Log("verified " + Id);
                                 }
 
                             }
@@ -230,7 +250,10 @@ namespace MirrorNet
 
 
                             Send(Encoding.UTF8.GetBytes(Id + "^*#^dead"));//todo:
-                            Shakehands();
+                            shakeTimer = new System.Timers.Timer(1000 * 4);
+                            shakeTimer.AutoReset = true;
+                            shakeTimer.Elapsed += ShakeTimer_Elapsed;
+                            shakeTimer.Start();
 
 
 
@@ -249,6 +272,7 @@ namespace MirrorNet
                             }
                             else
                             {
+                                Debuglogger.Log(Id +"-"+ message);
                                 OnMessageReceived(info.BufferBuilder.ToArray(), Id);
                             }
                         }
@@ -274,6 +298,12 @@ namespace MirrorNet
                     }
                 }
             }
+        }
+        private void ShakeTimer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+
+                Shakehands();
+            
         }
         private void UpdataTimer_Elapsed(object sender, ElapsedEventArgs e)
         {
