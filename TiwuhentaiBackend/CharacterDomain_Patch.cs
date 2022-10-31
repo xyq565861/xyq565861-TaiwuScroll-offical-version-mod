@@ -32,7 +32,7 @@ namespace Taiwuhentai
             if (flag)
             {
                 PregnantState state = new PregnantState(mother, father, isRaped);
-                state.IsHuman =( !context.Random.CheckPercentProb(DomainManager.Taiwu.GetCricketLuckPoint() / 100))&&!Taiwuhentai.preventCricketPregnant;
+                state.IsHuman =( !context.Random.CheckPercentProb(DomainManager.Taiwu.GetCricketLuckPoint() / 100))||Taiwuhentai.preventCricketPregnant;
                 bool isHuman = state.IsHuman;
                 float pregnantTimerate = 1;
                 switch (Taiwuhentai.rateOfPregnantTaiwu)
@@ -57,11 +57,11 @@ namespace Taiwuhentai
                 }
                 if (isHuman)
                 {
-                    state.ExpectedBirthDate =(int)(( currDate + context.Random.Next(6, 10))* pregnantTimerate);
+                    state.ExpectedBirthDate =(int)(( currDate + context.Random.Next(6, 10) * pregnantTimerate));
                 }
                 else
                 {
-                    state.ExpectedBirthDate = (int)((currDate + 42)* pregnantTimerate);
+                    state.ExpectedBirthDate = (int)((currDate + 42 * pregnantTimerate));
                 }
                 Type type = typeof(CharacterDomain);
                 BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance;
