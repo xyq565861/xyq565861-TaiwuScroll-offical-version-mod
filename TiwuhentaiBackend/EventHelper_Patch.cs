@@ -5,6 +5,7 @@ using gd::GameData.Domains;
 using gd::GameData.Domains.Character;
 using gd::GameData.Domains.Character.Relation;
 using gd::GameData.Domains.Map;
+using gd::GameData.Domains.TaiwuEvent;
 using gd::GameData.Domains.TaiwuEvent.EventHelper;
 using HarmonyLib;
 using System;
@@ -15,10 +16,26 @@ using System.Threading.Tasks;
 
 namespace Taiwuhentai
 {
-    [HarmonyPatch(typeof(EventHelper))]
-    class EventHelper_BoyOrGirlFriend
+    [HarmonyPatch(typeof(EventHelper), "AddRelation")]
+    class EventHelper_Patch_AddRelation
     {
-        [HarmonyPatch("ApplyRelationBecomeBoyOrGirlFriend")]
+        static bool Prefix(int charId, int relatedCharId, ushort relationType)
+        {
+            int taiwuCharId = DomainManager.Taiwu.GetTaiwuCharId();
+            bool flag =   Taiwuhentai.bloodTies && (taiwuCharId == charId || taiwuCharId == relatedCharId);
+            if (flag)
+            {
+                DomainManager.Character.AddRelation(DomainManager.TaiwuEvent.MainThreadDataContext, charId, relatedCharId, relationType, int.MinValue);
+                return false;
+            }
+
+            return true;
+
+        }
+    }
+    [HarmonyPatch(typeof(EventHelper), "ApplyRelationBecomeBoyOrGirlFriend")]
+    class EventHelper_Patch_ApplyRelationBecomeBoyOrGirlFriend
+    {
         static bool Prefix(Character selfChar, Character targetChar, bool succeed) 
         {
             int taiwuCharId = DomainManager.Taiwu.GetTaiwuCharId();
@@ -88,12 +105,9 @@ namespace Taiwuhentai
 
         }
     }
-    [HarmonyPatch(typeof(EventHelper))]
-    class EventHelper_HusbandOrWifePatch
+    [HarmonyPatch(typeof(EventHelper), "ApplyRelationBecomeHusbandOrWife")]
+    class EventHelper_Patch_ApplyRelationBecomeHusbandOrWife
     {
-     
-        
-           [HarmonyPatch("ApplyRelationBecomeHusbandOrWife")]
         static bool Prefix(Character selfChar, Character targetChar, bool succeed)
         {
 			int taiwuCharId = DomainManager.Taiwu.GetTaiwuCharId();

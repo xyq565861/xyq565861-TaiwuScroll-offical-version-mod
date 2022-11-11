@@ -19,23 +19,60 @@ using System.Threading.Tasks;
 
 namespace Taiwuhentai
 {
-    [HarmonyPatch(typeof(CharacterDomain))]
-    class CharacterDomain_Newbron_Patch
+    [HarmonyPatch(typeof(CharacterDomain), "ChangeFavorability")]
+    class CharacterDomain_Favorability_Patch_ChangeFavorability
     {
-        [HarmonyPatch("CreatePregnantState")]
+
+        static bool Prefix(CharacterDomain __instance, Character character, Character relatedChar, ref int baseDelta)
+        {
+            int taiwuCharId = DomainManager.Taiwu.GetTaiwuCharId();
+            if (Taiwuhentai.rateOfTaiwuSpouseFavorabilityReduce != 0)
+            {
+
+
+                if ((character.GetId() == taiwuCharId && HentaiUtility.GetTaiwuAliveSpousePool().Contains(relatedChar.GetId())) || (relatedChar.GetId() == taiwuCharId && HentaiUtility.GetTaiwuAliveSpousePool().Contains(character.GetId())))
+                {
+                    double rate = 1;
+                    switch (Taiwuhentai.rateOfTaiwuSpouseFavorabilityReduce)
+                    {
+
+                        case 1:
+                            rate = 0.5;
+                            break;
+                        case 2:
+                            rate = 0.01;
+                            break;
+                        default:
+                            break;
+
+                    }
+                    baseDelta = (int)(baseDelta * rate);
+                }
+            }
+            return true;
+
+
+        }
+
+
+    }
+    [HarmonyPatch(typeof(CharacterDomain), "CreatePregnantState")]
+    class CharacterDomain_Newbron_Patch_CreatePregnantState
+    {
+
         static bool Prefix(CharacterDomain __instance, DataContext context, Character mother, Character father, bool isRaped)
         {
-           
+
             int currDate = DomainManager.World.GetCurrDate();
             int taiwuCharId = DomainManager.Taiwu.GetTaiwuCharId();
             bool flag = taiwuCharId == mother.GetId() || taiwuCharId == father.GetId();
             if (flag)
             {
                 PregnantState state = new PregnantState(mother, father, isRaped);
-                state.IsHuman =( !context.Random.CheckPercentProb(DomainManager.Taiwu.GetCricketLuckPoint() / 100))||Taiwuhentai.preventCricketPregnant;
+                state.IsHuman = (!context.Random.CheckPercentProb(DomainManager.Taiwu.GetCricketLuckPoint() / 100)) || Taiwuhentai.preventCricketPregnant;
                 bool isHuman = state.IsHuman;
                 float pregnantTimerate = 1;
-                switch (Taiwuhentai.rateOfPregnantTaiwu)
+                switch (Taiwuhentai.rateTaiwuPregnantTime)
                 {
                     case 0:
                         pregnantTimerate = 1;
@@ -57,7 +94,7 @@ namespace Taiwuhentai
                 }
                 if (isHuman)
                 {
-                    state.ExpectedBirthDate =(int)(( currDate + context.Random.Next(6, 10) * pregnantTimerate));
+                    state.ExpectedBirthDate = (int)((currDate + context.Random.Next(6, 10) * pregnantTimerate));
                 }
                 else
                 {
@@ -77,8 +114,10 @@ namespace Taiwuhentai
 
         }
 
-
-        [HarmonyPatch("ParallelCreateNewbornChildren")]
+    }
+    [HarmonyPatch(typeof(CharacterDomain), "ParallelCreateNewbornChildren")]
+    class CharacterDomain_Newbron_Patch_ParallelCreateNewbornChildren
+    {
         public static IEnumerable<CodeInstruction> Transpiler(MethodBase __originalMethod, IEnumerable<CodeInstruction> instructions, ILGenerator il)
         {
 
@@ -142,7 +181,8 @@ namespace Taiwuhentai
                                  new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(Taiwuhentai), nameof(Taiwuhentai.childGender))),
                                  new CodeInstruction(OpCodes.Conv_I1, null),
                                  new CodeInstruction(OpCodes.Stloc_S, 15),
-                                 new CodeInstruction(OpCodes.Ldloca_S, 15),
+                                 new CodeInstruction(OpCodes.Ldstr, "Change Taiwu child Gender"),
+                                 //new CodeInstruction(OpCodes.Ldloca_S, 15),
                                  new CodeInstruction(OpCodes.Call, AccessTools.Method(typeof(Debuglogger), "Log", new Type[] { typeof(object) })),
                                  node3
                             ).SetAndAdvance(OpCodes.Ldloc_0, null)
@@ -162,7 +202,11 @@ namespace Taiwuhentai
             return instructions;
         }
 
-        [HarmonyPatch("ParallelCreateIntelligentCharacter")]
+    }
+    [HarmonyPatch(typeof(CharacterDomain), "ParallelCreateIntelligentCharacter")]
+    class CharacterDomain_Newbron_Patch_ParallelCreateIntelligentCharacter
+    {
+
         static bool Prefix(ref CreateIntelligentCharacterModification __result, DataContext context, ref IntelligentCharacterCreationInfo info, bool recordModification = true)
         {
           if(info.PregnantState != null)
@@ -301,13 +345,10 @@ namespace Taiwuhentai
             return true;
         }
       
-        
-
     }
-    [HarmonyPatch(typeof(CharacterDomain))]
-    class CharacterDomain_Marry_Patch
+    [HarmonyPatch(typeof(CharacterDomain), "AddHusbandOrWifeRelations")]
+    class CharacterDomain_Marry_Patch_AddHusbandOrWifeRelations
     {
-        [HarmonyPatch("AddHusbandOrWifeRelations")]
         static bool Prefix(CharacterDomain __instance, DataContext context, int charId, int spouseCharId, int establishmentDate = -2147483648)
         {
             if (Taiwuhentai.unrestrainedSpouseNum&&(charId == DomainManager.Taiwu.GetTaiwuCharId() || spouseCharId == DomainManager.Taiwu.GetTaiwuCharId()))

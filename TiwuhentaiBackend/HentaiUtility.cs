@@ -14,7 +14,20 @@ namespace Taiwuhentai
 {
 	class HentaiUtility
 	{
+		//public static bool ShouldHaveBirth(Character character)
+  //      {
+  //          if (DomainManager.Taiwu.IsInGroup(character.GetId()))
+  //          {
+		//		character.GetCurrAge
 
+		//	}
+			
+
+			
+
+
+		//	return
+  //      }
 		public static bool GetLesBianIO(Character character,Character target)
         {
 			int taiwuid = DomainManager.Taiwu.GetTaiwuCharId();

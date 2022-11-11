@@ -11,10 +11,10 @@ using System.Threading.Tasks;
 
 namespace Taiwuhentai
 {
-	[HarmonyPatch(typeof(RelationType))]
-	class RelationType_Patch
+	[HarmonyPatch(typeof(RelationType), "AllowAddingHusbandOrWifeRelation")]
+	class RelationType_Patch_AllowAddingHusbandOrWifeRelation
 	{
-		[HarmonyPatch("AllowAddingHusbandOrWifeRelation")]
+
 		static void Postfix(ref bool __result, int charId, int relatedCharId)
 		{
 			

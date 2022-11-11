@@ -139,25 +139,25 @@ namespace TaiwuhentaiFront
 		}
 		private static void HentaiOnGetGroupCharDisplayData(int offset, RawDataPool dataPool)
 		{
-			ThreadStart threadStart = new ThreadStart(() =>
-			{
-				try
-				{
-					bool flagBex = UilityTools.getGetBisexual(tipCharId);
-					int charm = UilityTools.getGetBaseCharm(tipCharId);
-					Debuglogger.Log(string.Format("CharId:{0}-Bisexual:{1}-Charm:{2}", tipCharId, (flagBex ? "双性" : "单性"),charm));
-					//SetRefersValues(tipInstance, "CharacterHappiness", flagBex ? "双性" : "单性");
-				}
-				catch (Exception ex)
-				{
-					SetRefersValues(tipInstance, "CharacterHappiness", "未查到");
-					Debuglogger.Log(ex.Message);
-					Debuglogger.Log(ex.StackTrace);
+			//ThreadStart threadStart = new ThreadStart(() =>
+			//{
+			//	try
+			//	{
+			//		bool flagBex = UilityTools.getGetBisexual(tipCharId);
+			//		int charm = UilityTools.getGetBaseCharm(tipCharId);
+			//		Debuglogger.Log(string.Format("CharId:{0}-Bisexual:{1}-Charm:{2}", tipCharId, (flagBex ? "双性" : "单性"),charm));
+			//		//SetRefersValues(tipInstance, "CharacterHappiness", flagBex ? "双性" : "单性");
+			//	}
+			//	catch (Exception ex)
+			//	{
+			//		SetRefersValues(tipInstance, "CharacterHappiness", "未查到");
+			//		Debuglogger.Log(ex.Message);
+			//		Debuglogger.Log(ex.StackTrace);
 
-				}
-			});
-			Thread thread = new Thread(threadStart);
-			thread.Start();
+			//	}
+			//});
+			//Thread thread = new Thread(threadStart);
+			//thread.Start();
 
 
 			List<GroupCharDisplayData> list = null;
@@ -169,7 +169,7 @@ namespace TaiwuhentaiFront
 			SetRefersValues(tipInstance,"CharacterCharm", groupCharDisplayData.Charm.ToString());
 			
 			
-			SetRefersValues(tipInstance, "CharacterFavorability", CommonUtils.GetFavorString(groupCharDisplayData.FavorabilityToTaiwu), CommonUtils.GetFavorIcon(groupCharDisplayData.FavorabilityToTaiwu));
+			SetRefersValues(tipInstance, "CharacterFavorability", groupCharDisplayData.FavorabilityToTaiwu.ToString(), CommonUtils.GetFavorIcon(groupCharDisplayData.FavorabilityToTaiwu));
 			sbyte fameType = FameType.GetFameType(groupCharDisplayData.Fame);
 			SetRefersValues(tipInstance, "CharacterFame", CommonUtils.GetFameString(fameType), CommonUtils.GetFameIcon(fameType));
 			SetRefersValues(tipInstance, "CharacterSamsara", groupCharDisplayData.PreexistenceCharCount.ToString(), null);

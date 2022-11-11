@@ -13,25 +13,40 @@ using System.Threading.Tasks;
 
 namespace Taiwuhentai
 {
-    [HarmonyPatch(typeof(AiHelper.Relation))]
-    class Relation_Patch
+    [HarmonyPatch(typeof(AiHelper.Relation), "GetStartRelationSuccessRate_BoyOrGirlFriend")]
+    class Relation_Patch_GetStartRelationSuccessRate_BoyOrGirlFriend
     {
-
-        [HarmonyPatch("GetStartRelationSuccessRate_BoyOrGirlFriend")]
-        static void Postfix(ref int __result,Character selfChar, Character targetChar) 
+        static void Postfix(ref int __result,Character selfChar, Character targetChar, RelatedCharacter targetToSelf) 
         {
             int selfCharId = selfChar.GetId();
             int targetCharId = targetChar.GetId();
             int charidTaiwu = DomainManager.Taiwu.GetTaiwuCharId();
-
+            Debuglogger.Log("__result ConfessionSuccessRate " + __result);
             if (charidTaiwu == selfCharId || charidTaiwu == targetCharId)
             {
-                if (Taiwuhentai.rateOfConfessionTaiwu > 0 && __result < Taiwuhentai.rateOfConfessionTaiwu * 10)
+                if (Taiwuhentai.adjustFavorabilityWeightInConfession)
                 {
                     Debuglogger.Log("rateOfConfessionTaiwu a " + __result);
-                    __result = Taiwuhentai.rateOfConfessionTaiwu * 10;
+
+                    double a = 0 -(double)__result / 50;
+                    double b = 12-a;
+                    if(b<0)
+                    {
+                        b = 0;
+                    }
+                    double c = (13 * b / (12 * b + 24)) * 6;
+                    double d =Math.Pow(targetToSelf.Favorability / 3614*c,2);
+
+                    __result += (short)d*3;
                     Debuglogger.Log("rateOfConfessionTaiwu b " + __result);
                 }
+                if (Taiwuhentai.rateOfConfessionTaiwu > 0 && __result < Taiwuhentai.rateOfConfessionTaiwu * 10)
+                {
+                    Debuglogger.Log("rateOfConfessionTaiwu c " + __result);
+                    __result = Taiwuhentai.rateOfConfessionTaiwu * 10;
+                    Debuglogger.Log("rateOfConfessionTaiwu d " + __result);
+                }
+
                 return;
             }
 

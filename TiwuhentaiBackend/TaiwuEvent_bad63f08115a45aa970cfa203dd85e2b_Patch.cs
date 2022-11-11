@@ -18,10 +18,9 @@ using Character = gd.GameData.Domains.Character.Character;
 
 namespace Taiwuhentai
 {
-	[HarmonyPatch(typeof(TaiwuEvent_bad63f08115a45aa970cfa203dd85e2b))]
-	public class TaiwuEvent_bad63f08115a45aa970cfa203dd85e2b_ExpressLove__Patch
+	[HarmonyPatch(typeof(TaiwuEvent_bad63f08115a45aa970cfa203dd85e2b), "OnOption9VisibleCheck")]
+	public class TaiwuEvent_bad63f08115a45aa970cfa203dd85e2b_ExpressLove_Patch_OnOption9VisibleCheck
 	{
-		[HarmonyPatch("OnOption9VisibleCheck")]
 		public static bool Prefix(ref bool __result, TaiwuEvent_bad63f08115a45aa970cfa203dd85e2b __instance)
 		{
 
@@ -77,10 +76,10 @@ namespace Taiwuhentai
 			return false;
 		}
 	}
-	[HarmonyPatch(typeof(TaiwuEvent_bad63f08115a45aa970cfa203dd85e2b))]
-	public class TaiwuEvent_bad63f08115a45aa970cfa203dd85e2b_Proposal__Patch
+	[HarmonyPatch(typeof(TaiwuEvent_bad63f08115a45aa970cfa203dd85e2b), "OnOption10VisibleCheck")]
+	public class TaiwuEvent_bad63f08115a45aa970cfa203dd85e2b_Proposal_Patch_OnOption10VisibleCheck
 	{
-		[HarmonyPatch("OnOption10VisibleCheck")]
+
 		public static bool Prefix(ref bool __result, TaiwuEvent_bad63f08115a45aa970cfa203dd85e2b __instance)
 		{
 			Debuglogger.Log("injected marry event option10");
@@ -98,7 +97,7 @@ namespace Taiwuhentai
 				Character character2 = __instance.ArgBox.GetCharacter("CharacterId");
 				int charId = -1;
 				__instance.ArgBox.Get("CharacterId", ref charId);
-				bool hasMarried = (EventHelper.CheckHasRelationship(character, character2, 1024) || EventHelper.CheckHasRelationship(character2, character, 1024));				
+				bool hasMarried = (EventHelper.CheckHasRelationship(character, character2, 1024) || EventHelper.CheckHasRelationship(character2, character, 1024));
 				if (hasMarried)
 				{
 					__result = false;
@@ -108,13 +107,13 @@ namespace Taiwuhentai
 
 				if (flag2)
 				{
-					Debuglogger.Log("RoleHasAliveSpouse " + EventArgBox.TaiwuCharacterId +"_"+EventHelper.RoleHasAliveSpouse(EventArgBox.TaiwuCharacterId));
-					Debuglogger.Log("RoleHasAliveSpouse " + charId + "_"+EventHelper.RoleHasAliveSpouse(charId));
+					Debuglogger.Log("RoleHasAliveSpouse " + EventArgBox.TaiwuCharacterId + "_" + EventHelper.RoleHasAliveSpouse(EventArgBox.TaiwuCharacterId));
+					Debuglogger.Log("RoleHasAliveSpouse " + charId + "_" + EventHelper.RoleHasAliveSpouse(charId));
 					bool flag3 = EventHelper.RoleHasAliveSpouse(EventArgBox.TaiwuCharacterId) && !Taiwuhentai.unrestrainedSpouseNum;
-					bool flag4 =  EventHelper.RoleHasAliveSpouse(charId) && !Taiwuhentai.allowTaiwuNtr;
-					if (flag4|| flag3)
+					bool flag4 = EventHelper.RoleHasAliveSpouse(charId) && !Taiwuhentai.allowTaiwuNtr;
+					if (flag4 || flag3)
 					{
-						Debuglogger.Log("injected marry event option10 flag3,4);" + flag3+flag4);
+						Debuglogger.Log("injected marry event option10 flag3,4);" + flag3 + flag4);
 
 						__result = false;
 						return false;
@@ -122,7 +121,7 @@ namespace Taiwuhentai
 					bool flag5 = (EventHelper.GetRoleMonkType(character2) != 0 && !Taiwuhentai.unrestrainedSpouseFactions) || !HentaiUtility.CanStartHusbandOrWife(character.GetId(), character2.GetId(), 1024);
 					if (flag5)
 					{
-						Debuglogger.Log("injected marry event option10 flag5);"+ flag5);
+						Debuglogger.Log("injected marry event option10 flag5);" + flag5);
 
 						__result = false;
 						return false;
@@ -130,7 +129,7 @@ namespace Taiwuhentai
 					bool flag6 = character2.OrgAndMonkTypeAllowMarriage() || Taiwuhentai.unrestrainedSpouseFactions;
 					if (flag6)
 					{
-						Debuglogger.Log("injected marry event option10 flag6);"+ flag6);
+						Debuglogger.Log("injected marry event option10 flag6);" + flag6);
 
 						__result = true;
 						return false;
@@ -141,7 +140,12 @@ namespace Taiwuhentai
 
 			return false;
 		}
-		[HarmonyPatch("OnOption11VisibleCheck")]
+
+	}
+	[HarmonyPatch(typeof(TaiwuEvent_bad63f08115a45aa970cfa203dd85e2b), "OnOption11VisibleCheck")]
+	public class TaiwuEvent_bad63f08115a45aa970cfa203dd85e2b_Proposal_Patch_OnOption11VisibleCheck 
+	{ 
+
 		public static bool Prefix(ref bool __result)
 		{
 			Debuglogger.Log("injected marry event option11");

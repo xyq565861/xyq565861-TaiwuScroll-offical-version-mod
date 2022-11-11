@@ -7,9 +7,11 @@ using gd::GameData.Domains.Character;
 using gd::GameData.Domains.Character.Ai;
 using gd::GameData.Domains.Character.ParallelModifications;
 using gd::GameData.Domains.Character.Relation;
+using gd::GameData.Domains.Information;
 using gd::GameData.Domains.Information.Collection;
 using gd::GameData.Domains.LifeRecord;
 using gd::GameData.Domains.Taiwu;
+using gd::GameData.Domains.World.Notification;
 using gd::GameData.Utilities;
 using HarmonyLib;
 using Redzen.Random;
@@ -24,10 +26,198 @@ using Character = gd.GameData.Domains.Character.Character;
 
 namespace Taiwuhentai
 {
-	[HarmonyPatch(typeof(Character))]
-	class Character_Patch_PeriAdvanceMonth
+	[HarmonyPatch(typeof(Character), "ApplyBecomeBoyOrGirlFriend")]
+	class Character_Patch_ApplyBecomeBoyOrGirlFriend
 	{
-		[HarmonyPatch("CalcFertility")]
+		public static IEnumerable<CodeInstruction> Transpiler(MethodBase __originalMethod, IEnumerable<CodeInstruction> instructions, ILGenerator il)
+		{
+
+			//mainChildGender.SetLocalSymInfo("15",15,16);
+			Label label1 = il.DefineLabel();
+			Label label2 = il.DefineLabel();
+
+
+
+			CodeInstruction node1 = new CodeInstruction(OpCodes.Nop);
+			CodeInstruction node2 = new CodeInstruction(OpCodes.Nop);
+
+			node1.labels.Add(label1);
+			node2.labels.Add(label2);
+			//71  00B4 ldarg.s selfIsTaiwuPeople(5)
+			//72  00B6 ldarg.s targetIsTaiwuPeople(6)
+			//73  00B8 or
+			//74  00B9 Callvirt.i4.0
+			//75  00BA and
+			//76  00BB brtrue  123(0136) nop
+			//77  00C0 nop
+
+
+
+
+			instructions = new CodeMatcher(instructions)
+						  .MatchForward(false, // false = move at the start of the match, true = move at the end of the match
+							  new CodeMatch(OpCodes.Callvirt, typeof(LifeRecordCollection).GetMethod("AddConfessLoveSucceed"))
+						  )
+				 .Repeat(matcher => // Do the following for each match
+							 matcher.Advance(2).InsertAndAdvance(
+								  new CodeInstruction(OpCodes.Ldarg_S, 5),
+								  new CodeInstruction(OpCodes.Ldarg_S, 6),
+								  new CodeInstruction(OpCodes.Or, null),
+								  new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(Taiwuhentai), nameof(Taiwuhentai.noOverheardConfessionTaiwu))),
+								  new CodeInstruction(OpCodes.And, null),
+								  new CodeInstruction(OpCodes.Brtrue_S, label1),
+								  new CodeInstruction(OpCodes.Nop, null)
+
+
+							 ).Advance(1)
+						 )
+
+				.InstructionEnumeration();
+			//122 0134    br.s    129(0141) nop
+			//123 0136    ldloc.s monthlyNotificationCollection(6)
+			//124 0138    ldloc.0
+			//125 0139    ldloc.3
+			//126 013A ldloc.1
+			//127 013B callvirt    instance void GameData.Domains.World.Notification.MonthlyNotificationCollection::AddMarriage(int32, valuetype GameData.Domains.Map.Location, int32)
+			//128 0140    nop
+
+			instructions = new CodeMatcher(instructions)
+				 .MatchForward(false, // false = move at the start of the match, true = move at the end of the match
+					 new CodeMatch(OpCodes.Callvirt, typeof(InformationDomain).GetMethod("ReceiveSecretInformation"))
+						 )
+				.Repeat(matcher => // Do the following for each match
+
+
+							matcher.Advance(2).InsertAndAdvance(
+								  new CodeInstruction(OpCodes.Br_S, label2),
+								  node1,
+								  new CodeInstruction(OpCodes.Ldloc_S, 5),
+								  new CodeInstruction(OpCodes.Ldloc_S, 0),
+								  new CodeInstruction(OpCodes.Ldloc_S, 2),
+								  new CodeInstruction(OpCodes.Ldloc_S, 1),
+								  new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(MonthlyNotificationCollection), "AddConfessLoveAndSucceed")),
+								  node2
+								).Advance(1)
+						)
+
+				.InstructionEnumeration();
+
+
+
+			return instructions;
+		}
+
+	}
+	[HarmonyPatch(typeof(Character), "ApplyBecomeHusbandOrWife")]
+	class Character_Patch_ApplyBecomeHusbandOrWife
+	{
+		public static IEnumerable<CodeInstruction> Transpiler(MethodBase __originalMethod, IEnumerable<CodeInstruction> instructions, ILGenerator il)
+		{
+
+			//mainChildGender.SetLocalSymInfo("15",15,16);
+			Label label1 = il.DefineLabel();
+			Label label2 = il.DefineLabel();
+
+
+
+			CodeInstruction node1 = new CodeInstruction(OpCodes.Nop);
+			CodeInstruction node2 = new CodeInstruction(OpCodes.Nop);
+
+			node1.labels.Add(label1);
+			node2.labels.Add(label2);
+			//71  00B4 ldarg.s selfIsTaiwuPeople(5)
+			//72  00B6 ldarg.s targetIsTaiwuPeople(6)
+			//73  00B8 or
+			//74  00B9 Callvirt.i4.0
+			//75  00BA and
+			//76  00BB brtrue  123(0136) nop
+			//77  00C0 nop
+
+
+
+
+			instructions = new CodeMatcher(instructions)
+						  .MatchForward(false, // false = move at the start of the match, true = move at the end of the match
+							  new CodeMatch(OpCodes.Callvirt, typeof(LifeRecordCollection).GetMethod("AddProposeMarriageSucceed"))
+						  )
+				 .Repeat(matcher => // Do the following for each match
+							 matcher.Advance(2).InsertAndAdvance(
+								  new CodeInstruction(OpCodes.Ldarg_S, 5),
+								  new CodeInstruction(OpCodes.Ldarg_S, 6),
+								  new CodeInstruction(OpCodes.Or, null),
+								  new CodeInstruction(OpCodes.Ldsfld, AccessTools.Field(typeof(Taiwuhentai), nameof(Taiwuhentai.noOverheardProposeTaiwu))),
+								  new CodeInstruction(OpCodes.And, null),
+								  new CodeInstruction(OpCodes.Brtrue_S, label1),
+								  new CodeInstruction(OpCodes.Nop, null)
+
+
+							 ).Advance(1)
+						 )
+
+				.InstructionEnumeration();
+			//122 0134    br.s    129(0141) nop
+			//123 0136    ldloc.s monthlyNotificationCollection(6)
+			//124 0138    ldloc.0
+			//125 0139    ldloc.3
+			//126 013A ldloc.1
+			//127 013B callvirt    instance void GameData.Domains.World.Notification.MonthlyNotificationCollection::AddMarriage(int32, valuetype GameData.Domains.Map.Location, int32)
+			//128 0140    nop
+
+			instructions = new CodeMatcher(instructions)
+				 .MatchForward(false, // false = move at the start of the match, true = move at the end of the match
+					 new CodeMatch(OpCodes.Callvirt, typeof(InformationDomain).GetMethod("ReceiveSecretInformation"))
+						 )
+				.Repeat(matcher => // Do the following for each match
+
+
+							matcher.Advance(2).InsertAndAdvance(
+								  new CodeInstruction(OpCodes.Br_S, label2),
+								  node1,
+								  new CodeInstruction(OpCodes.Ldloc_S,6),
+								  new CodeInstruction(OpCodes.Ldloc_S,0),
+								  new CodeInstruction(OpCodes.Ldloc_S,3),
+								  new CodeInstruction(OpCodes.Ldloc_S,1),
+								  new CodeInstruction(OpCodes.Callvirt, AccessTools.Method(typeof(MonthlyNotificationCollection), "AddMarriage")),
+								  node2
+								).Advance(1)
+						)
+
+				.InstructionEnumeration();
+
+
+
+			return instructions;
+		}
+
+	}
+	[HarmonyPatch(typeof(Character), "OfflineIncreaseAge")]
+	public class Character_Patch_OfflineIncreaseAge
+    {
+		static bool Prefix(Character __instance)
+        {
+			int taiwuId = DomainManager.Taiwu.GetTaiwuCharId();
+			if (Taiwuhentai.taiwuAgeCap!=-1&&taiwuId == __instance.GetId())
+            {
+				if(__instance.GetCurrAge()>= Taiwuhentai.taiwuAgeCap)
+                {
+					return false;
+                }
+            }
+			if (Taiwuhentai.taiwuSpouseAgeCap != -1 && HentaiUtility.GetTaiwuAliveSpousePool().Contains( __instance.GetId()))
+			{
+				if (__instance.GetCurrAge() >= Taiwuhentai.taiwuSpouseAgeCap)
+				{
+					return false;
+				}
+			}
+
+			return true;
+		}
+		
+	}
+	[HarmonyPatch(typeof(Character), "CalcFertility")]
+	class Character_Patch_CalcFertility
+	{
 		static void Postfix(Character __instance, ref short __result)
 		{
 
@@ -61,9 +251,10 @@ namespace Taiwuhentai
 
 			}
 		}
-
-
-		[HarmonyPatch("PeriAdvanceMonth_ExecuteFixedActions")]
+	}
+	[HarmonyPatch(typeof(Character), "PeriAdvanceMonth_ExecuteFixedActions")]
+	class Character_Patch_PeriAdvanceMonth_ExecuteFixedActions
+	{
 		public static IEnumerable<CodeInstruction> Transpiler(MethodBase __originalMethod, IEnumerable<CodeInstruction> instructions, ILGenerator il)
 		{
 
@@ -106,7 +297,7 @@ namespace Taiwuhentai
 						  )
 				 .Repeat(matcher => // Do the following for each match
 							 matcher.Advance(2).InsertAndAdvance(
-								  new CodeInstruction(OpCodes.Ldloc_1,null),
+								  new CodeInstruction(OpCodes.Ldloc_1, null),
 								  new CodeInstruction(OpCodes.Ldc_I4_1, null),
 								  new CodeInstruction(OpCodes.Ceq, null),
 								  new CodeInstruction(OpCodes.Brfalse_S, label2),
@@ -130,12 +321,16 @@ namespace Taiwuhentai
 						 )
 
 				.InstructionEnumeration();
-		
+
 
 			return instructions;
 		}
-		[HarmonyPatch("OfflineExecuteFixedAction_MakeLove_Mutual")]
-		static bool Prefix(IRandomSource random,Character __instance, int targetCharId, bool allowRape, PeriAdvanceMonthFixedActionModification mod)
+
+	}
+	[HarmonyPatch(typeof(Character), "OfflineExecuteFixedAction_MakeLove_Mutual")]
+	class Character_Patch_OfflineExecuteFixedAction_MakeLove_Mutual
+	{
+		public static bool Prefix(IRandomSource random, Character __instance, int targetCharId, bool allowRape, PeriAdvanceMonthFixedActionModification mod)
 		{
 
 			int charidTaiwu = DomainManager.Taiwu.GetTaiwuCharId();
@@ -149,19 +344,19 @@ namespace Taiwuhentai
 			bool charflagTaiwuAdored = HentaiUtility.GetTaiwuAliveAdoredPool().Contains(__instance.GetId());
 
 			if (Taiwuhentai.preventTaiwuSpouseIllegalLove)
-            {
+			{
 
-                if (((charflagTaiwuSpouse|| charflagTaiwuAdored)&& !targetflagTaiwu)||((targetflagTaiwuAdored|| targetflagTaiwuSpouse)&& !charflagTaiwu))
+				if (((charflagTaiwuSpouse || charflagTaiwuAdored) && !targetflagTaiwu) || ((targetflagTaiwuAdored || targetflagTaiwuSpouse) && !charflagTaiwu))
 				{
 					return false;
-                }
+				}
 
-				
+
 			}
 
 			Character target = DomainManager.Character.GetElement_Objects(targetCharId);
 			bool flag = target.GetAgeGroup() != 0;
-			if (flag && (Taiwuhentai.fertilityIgnoreAgeTaiwuSpouse&&(targetflagTaiwu || charflagTaiwu)))
+			if (flag && (Taiwuhentai.fertilityIgnoreAgeTaiwuSpouse && (targetflagTaiwu || charflagTaiwu)))
 			{
 				bool flag2 = __instance.GetGender() == 1;
 				bool flag3 = __instance.GetGender() == target.GetGender();
@@ -170,7 +365,7 @@ namespace Taiwuhentai
 
 				//bool flag4 = __instance.GetGender() == target.GetGender() && ((DomainManager.Taiwu.GetTaiwuCharId() == targetCharId && Taiwuhentai.lesbianPregnantIO == 2) || (DomainManager.Taiwu.GetTaiwuCharId() == __instance.GetId() && Taiwuhentai.lesbianPregnantIO == 1));
 
-				if (flag2 || (Taiwuhentai.lesbianPregnantTaiwu&&flag3&&targetflagTaiwu && Taiwuhentai.lesbianPregnantIO == 2) || (Taiwuhentai.lesbianPregnantTaiwu && flag3 &&charflagTaiwu && Taiwuhentai.lesbianPregnantIO == 1))
+				if (flag2 || (Taiwuhentai.lesbianPregnantTaiwu && flag3 && targetflagTaiwu && Taiwuhentai.lesbianPregnantIO == 2) || (Taiwuhentai.lesbianPregnantTaiwu && flag3 && charflagTaiwu && Taiwuhentai.lesbianPregnantIO == 1))
 				{
 					father = __instance;
 					mother = target;
@@ -180,7 +375,7 @@ namespace Taiwuhentai
 					father = target;
 					mother = __instance;
 				}
-				
+
 				Type tChatacter = __instance.GetType();
 				BindingFlags bindFlag = BindingFlags.NonPublic | BindingFlags.Instance;
 				MethodInfo makeloveMethod = tChatacter.GetMethod("OfflineMakeLove", bindFlag);
@@ -222,7 +417,7 @@ namespace Taiwuhentai
 						}
 						Debuglogger.Log("OfflineExecuteFixedAction_MakeLove_Mutual TaiwuAdoredab" + __instance.GetId() + " " + targetCharId);
 
-						bool returnValue = (bool)makeloveMethod.Invoke(__instance,new object[] { random, father, mother, false });
+						bool returnValue = (bool)makeloveMethod.Invoke(__instance, new object[] { random, father, mother, false });
 						Debuglogger.Log("OfflineExecuteFixedAction_MakeLove_Mutual TaiwuAdoredac" + __instance.GetId() + " " + targetCharId);
 
 						mod.MakeLoveTargetList.Add(new ValueTuple<Character, PeriAdvanceMonthFixedActionModification.MakeLoveState, bool>(target, PeriAdvanceMonthFixedActionModification.MakeLoveState.Illegal, returnValue));
@@ -233,21 +428,19 @@ namespace Taiwuhentai
 			}
 			return true;
 		}
-
 	}
-	[HarmonyPatch(typeof(Character))]
-	class Character_Patch_ComplementPeriAdvanceMonth
+	[HarmonyPatch(typeof(Character), "OfflineMakeLove")]
+	class Character_Patch_OfflineMakeLove
 	{
-		[HarmonyPatch("OfflineMakeLove")]
-		static bool Prefix(IRandomSource random, Character father, Character mother, bool isRape,ref bool __result)
+		static bool Prefix(IRandomSource random, Character father, Character mother, bool isRape, ref bool __result)
 		{
 			int charidTaiwu = DomainManager.Taiwu.GetTaiwuCharId();
 
-			if (father.GetId()== charidTaiwu|| mother.GetId()== charidTaiwu)
-            {
+			if (father.GetId() == charidTaiwu || mother.GetId() == charidTaiwu)
+			{
 				bool flag = mother.GetGender() == father.GetGender();
 				bool flag2;
-				if (flag&&!Taiwuhentai.lesbianPregnantTaiwu)
+				if (flag && !Taiwuhentai.lesbianPregnantTaiwu)
 				{
 					flag2 = false;
 				}
@@ -255,7 +448,7 @@ namespace Taiwuhentai
 				{
 					Type type = typeof(Character);
 					BindingFlags bindingFlags = BindingFlags.NonPublic | BindingFlags.Instance;
-					MethodInfo addFeatureMethod = type.GetMethod("OfflineAddFeature",bindingFlags);
+					MethodInfo addFeatureMethod = type.GetMethod("OfflineAddFeature", bindingFlags);
 					addFeatureMethod.Invoke(mother, new object[] { (short)196, true });
 					addFeatureMethod.Invoke(father, new object[] { (short)196, true });
 
@@ -277,7 +470,10 @@ namespace Taiwuhentai
 			return true;
 
 		}
-        [HarmonyPatch("ComplementPeriAdvanceMonth_ExecuteFixedActions")]
+	}
+	[HarmonyPatch(typeof(Character), "ComplementPeriAdvanceMonth_ExecuteFixedActions")]
+	class Character_Patch_ComplementPeriAdvanceMonth_ExecuteFixedActions
+	{
         public static IEnumerable<CodeInstruction> Transpiler(MethodBase __originalMethod, IEnumerable<CodeInstruction> instructions, ILGenerator il)
         {
 

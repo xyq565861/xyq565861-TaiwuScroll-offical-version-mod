@@ -21,7 +21,7 @@ namespace TaiwuhentaiFront
 			harmony = new Harmony("Taiwuhentai front");
 			harmony.PatchAll(typeof(UI_CharacterMenuInfo_Patch));
 			harmony.PatchAll(typeof(MouseTipCharacter_Patch));
-			harmony.PatchAll(typeof(UI_CharacterMenu_Patch));
+			//harmony.PatchAll(typeof(UI_CharacterMenu_Patch));
 
 
 
@@ -53,7 +53,6 @@ namespace TaiwuhentaiFront
 				harmony.UnpatchSelf();
 			}
 		}
-
 
 
 		public static TaiwuFrontClient  taiwuFrontClient;
